@@ -1,0 +1,184 @@
+/* ---------- HEADER BASE ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: #2196F3; /* Solid blue background */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border-bottom: 2px solid #4CAF50; /* Green accent border */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.site-header.scrolled {
+  background: rgba(33, 150, 243, 0.95); /* Blue on scroll */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+/* ---------- CONTAINER ---------- */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+}
+
+/* ---------- LOGO & TITLE ---------- */
+.logo-title {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #FFFFFF; /* White for vibrant background */
+  transition: transform 0.3s ease;
+}
+
+.logo-title:hover {
+  transform: scale(1.02);
+}
+
+.logo {
+  height: 90px;
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- DESKTOP NAV ---------- */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 1.2rem;
+  position: relative;
+  transition: color 0.3s ease;
+  padding: 0.75rem 0;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #FFFFFF; /* White accent */
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a.active-link::after {
+  width: 100%;
+  background: #FFFFFF; /* White for active page */
+}
+
+/* ---------- GET QUOTE BUTTON ---------- */
+.quote-btn {
+  background: #09427c; /* Darker blue for blending */
+  color: #FFFFFF;
+  padding: 0.75rem 3rem;
+  border-radius: 0;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+  box-shadow: none;
+  height: 50px;
+}
+
+.quote-btn:hover {
+  background: #1565C0; /* Even darker blue on hover */
+  color: #ffffff;
+}
+
+/* ---------- MOBILE MENU BUTTON ---------- */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 110;
+}
+
+.menu-icon {
+  width: 26px;
+  height: 3px;
+  background-color: #FFFFFF;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.menu-icon.open:nth-child(1) {
+  transform: rotate(45deg) translateY(8px);
+}
+
+.menu-icon.open:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-icon.open:nth-child(3) {
+  transform: rotate(-45deg) translateY(-8px);
+}
+
+/* ---------- MOBILE DROPDOWN MENU ---------- */
+.mobile-dropdown {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: rgba(33, 150, 243, 0.95);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.mobile-dropdown.open {
+  max-height: 300px;
+  opacity: 1;
+}
+
+.mobile-dropdown a {
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.mobile-dropdown a:hover {
+  color: #4CAF50;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+}
