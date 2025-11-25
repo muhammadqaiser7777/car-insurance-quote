@@ -66,9 +66,9 @@
 
 /* Hover Effects */
 .tab-btn:hover {
-  background: #2196F3; /* Blue primary */
+  background: #1565C0; /* Blue primary */
   color: #ffffff;
-  border-color: #2196F3;
+  border-color: #1565C0;
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
 }

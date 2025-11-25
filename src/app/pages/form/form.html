@@ -1,1 +1,92 @@
-<p>form works!</p>
+<div class="background"></div>
+<div class="form-container">
+  <form (ngSubmit)="submit()" (keydown.enter)="$event.preventDefault()" #f="ngForm">
+  <div class="roof-form" [ngClass]="'step-' + currentStep">
+    <div class="header">
+      <img [src]="logoUrl" alt="Form Logo" class="form-logo">
+      <h1>{{ formTitle }}</h1>
+    </div>
+    <div class="questions" *ngIf="currentStep === 1">
+      <div class="question">
+        <label for="make">Choose your car make</label>
+        <select id="make" [(ngModel)]="make" name="make" (change)="onMakeChange()" required>
+          <option value="">Select a make</option>
+          <option *ngFor="let make of makes" [value]="make">{{ make }}</option>
+        </select>
+        <div class="error" *ngIf="errors['make']">{{ errors['make'] }}</div>
+      </div>
+      <div class="question">
+        <label for="model">Choose your car model</label>
+        <select id="model" [(ngModel)]="model" name="model" (change)="onModelChange()" required [disabled]="!make">
+          <option value="">Select a model</option>
+          <option *ngFor="let model of availableModels" [value]="model">{{ model }}</option>
+        </select>
+        <div class="error" *ngIf="errors['model']">{{ errors['model'] }}</div>
+      </div>
+      <div class="question">
+        <label for="submodel">Choose your car submodel</label>
+        <select id="submodel" [(ngModel)]="submodel" name="submodel" required [disabled]="!model">
+          <option value="">Select a submodel</option>
+          <option *ngFor="let submodel of availableSubmodels" [value]="submodel">{{ submodel }}</option>
+        </select>
+        <div class="error" *ngIf="errors['submodel']">{{ errors['submodel'] }}</div>
+      </div>
+      <div class="question">
+        <label for="year">Choose your car year</label>
+        <select id="year" [(ngModel)]="year" name="year" required>
+          <option value="">Select a year</option>
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+        <div class="error" *ngIf="errors['year']">{{ errors['year'] }}</div>
+      </div>
+    </div>
+    <div class="questions" *ngIf="currentStep === 2">
+    </div>
+    <div class="questions" *ngIf="currentStep === 3">
+    </div>
+    <div class="questions" *ngIf="currentStep === 4">
+    </div>
+    <div class="questions" *ngIf="currentStep === 6">
+    </div>
+    <div class="questions" *ngIf="currentStep === 5">
+    </div>
+    <div class="questions" *ngIf="currentStep === 7">
+    </div>
+    <div class="questions" *ngIf="currentStep === 8">
+    </div>
+    <div class="questions" *ngIf="currentStep === 9">
+      <div class="question">
+        <label for="agreement" class="checkbox-label">
+          <input type="checkbox" id="agreement" [(ngModel)]="agreement" name="agreement">
+          By clicking GET YOUR QUOTE, I agree to the <a href="/policies?tab=privacy" target="_blank">Terms of Service and Privacy Policy</a>, I authorize home improvement companies, their contractors, and <a href="/marketing-partners" target="_blank">Partner Companies</a> to contact me about home improvement offers by phone calls and text messages to the number I provided. I authorize that these marketing communications may be delivered to me using an automatic telephone dialing system or by prerecorded message. I understand that my consent is not a condition of purchase, and I may revoke that consent at any time. Mobile and data charges may apply. <a href="/policies?tab=company" target="_blank">California Residents</a>.
+        </label>
+        <div class="error" *ngIf="errors['agreement']">{{ errors['agreement'] }}</div>
+      </div>
+      <input type="hidden" name="ipaddress" [(ngModel)]="ipaddress">
+      <input id="leadid_token" name="universal_leadid" type="hidden">
+    </div>
+
+    <div class="error" *ngIf="errors['general']" style="text-align: center;">{{ errors['general'] }}</div>
+    <div class="buttons" [ngClass]="{'multiple': currentStep !== 1}">
+      <button *ngIf="currentStep === 1" type="button" (click)="nextStep()" class="btn-next">Next</button>
+      <button *ngIf="currentStep > 1 && currentStep < totalSteps" type="button" (click)="previousStep()" class="btn-previous">Previous</button>
+      <button *ngIf="currentStep > 1 && currentStep < totalSteps" type="button" (click)="nextStep()" class="btn-next" [disabled]="isValidatingIP">
+        <span *ngIf="!isValidatingIP">Next</span>
+        <span *ngIf="isValidatingIP">Validating...</span>
+      </button>
+      <button *ngIf="currentStep === totalSteps" type="button" (click)="previousStep()" class="btn-previous">Previous</button>
+      <button *ngIf="currentStep === totalSteps" type="submit" class="btn-submit" [disabled]="!isUSCitizen || isSubmitting">
+        <span *ngIf="!isSubmitting">Submit</span>
+        <span *ngIf="isSubmitting">Submitting...</span>
+      </button>
+    </div>
+  </div>
+  </form>
+</div>
+
+
+<div *ngIf="showThankYou" class="thank-you-popup">
+  Thank you, your response has been recorded.
+</div>
+
+<noscript><img src='//create.leadid.com/noscript.gif?lac=6B96394A-E3F0-75F4-8748-80CB63C352C2&lck=548c86c2-3c24-2ec2-b201-274ffb0f5005&snippet_version=2' /></noscript>
