@@ -87,7 +87,7 @@ export class Form implements OnInit {
         'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7',
         'Z3', 'Z4', 'Z8',
         'i3', 'i4', 'iX', 'iX3', 'i8',
-        'M2', 'M3', 'M4', 'M5', 'M6', 'MX5'
+        'M2', 'M3', 'M4', 'M5', 'M6'
     ],
     'BrightDrop': [
         'EV600', 'EV410', 'Zevo 600', 'Zevo 400'
@@ -206,7 +206,7 @@ export class Form implements OnInit {
     ],
     'Hyundai': [
         'Accent', 'Elantra', 'Sonata', 'Azera', 'Venue', 'Kona', 'Tucson',
-        'Santa Fe', 'Palisade', 'Ioniq', 'Karma', 'Staria', 'Nexo',
+        'Santa Fe', 'Palisade', 'Ioniq', 'Staria', 'Nexo',
         'Veloster', 'Getz', 'i10', 'i20', 'i30', 'Matrix', 'Tiburon',
         'Genesis', 'Atos', 'Trajet', 'Santro', 'Coupe', 'H-1', 'H-100'
     ],
@@ -608,7 +608,6 @@ export class Form implements OnInit {
     'BMW M4': ['Base', 'Competition', 'Convertible', 'GTS'],
     'BMW M5': ['Base', 'Competition', 'CS'],
     'BMW M6': ['Base', 'Gran Coupe', 'Convertible', 'Competition'],
-    'BMW MX5' : [],
 
     'BrightDrop EV600': ['Standard', 'Pro', 'Max Range'],
     'BrightDrop EV410': ['Standard', 'Pro', 'Max Range'],
