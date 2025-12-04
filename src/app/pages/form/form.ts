@@ -38,27 +38,75 @@ export class Form implements OnInit {
   private leadIdReady = false;
 
   makes = [
-    'Acura', 'Alfa Romeo', 'American General', 'American Motors', 'Aro', 'Aston Martin', 'Audi', 'Automobili Pininfarina', 'Avanti', 'Azure Dynamics', 'Bentley', 'BMW', 'Brightdrop', 'Bugatti', 'Buick', 'Byd', 'Cadillac', 'Chevrolet', 'Chrysler', 'Daewoo', 'Daihatsu', 'Datsun', 'Dodge', 'Eagle', 'Ferrari', 'Fiat', 'Fisker', 'Ford', 'Freightliner', 'Genesis', 'Geo', 'GEM', 'GMC', 'Honda', 'Hummer', 'Hyundai', 'Ineos', 'Infiniti', 'International', 'Isuzu', 'Iveco', 'Jaguar', 'Jeep', 'Karma', 'Kia', 'Laforza', 'Lamborghini', 'Lancia', 'Land Rover', 'Lexus', 'Lincoln', 'Lordstown', 'Lotus', 'Lucid', 'Mahindra', 'Maserati', 'Maybach', 'Mazda', 'Mclaren', 'Mercedes-Benz', 'Mercury', 'Merkur', 'Mini', 'Mitsubishi', 'Nissan', 'Oldsmobile', 'Peugeot', 'Plymouth', 'Polestar', 'Pontiac', 'Porsche', 'Ram', 'Renault', 'Rivian', 'Rolls-Royce', 'Saab', 'Saturn', 'Smart', 'Spartan', 'Sterling', 'Subaru', 'Suzuki', 'Tesla', 'Toyota', 'Triumph', 'Tvr', 'Vinfast', 'Volkswagen', 'Volvo', 'Yugo', 'Zeekr'
+    'Acura', 'Alfa Romeo', 'American General', 'American Motors', 'ARO', 'Aston Martin', 'Audi', 'Automobili Pininfarina', 'Avanti', 'Azure Dynamics', 'Bentley', 'BMW', 'BrightDrop', 'Bugatti', 'Buick', 'BYD', 'Cadillac', 'Chevrolet', 'Chrysler', 'Daewoo', 'Daihatsu', 'Datsun', 'Dodge', 'Eagle', 'Ferrari', 'Fiat', 'Fisker', 'Ford', 'Freightliner', 'Genesis', 'Geo', 'GEM', 'GMC', 'Honda', 'Hummer', 'Hyundai', 'Ineos', 'Infiniti', 'International', 'Isuzu', 'Iveco', 'Jaguar', 'Jeep', 'Karma', 'Kia', 'Laforza', 'Lamborghini', 'Lancia', 'Land Rover', 'Lexus', 'Lincoln', 'Lordstown', 'Lotus', 'Lucid', 'Mahindra', 'Maserati', 'Maybach', 'Mazda', 'McLaren', 'Mercedes-Benz', 'Mercury', 'Merkur', 'MINI', 'Mitsubishi', 'Nissan', 'Oldsmobile', 'Peugeot', 'Plymouth', 'Polestar', 'Pontiac', 'Porsche', 'Ram', 'Renault', 'Rivian', 'Rolls-Royce', 'Saab', 'Saturn', 'Smart', 'Spartan', 'Sterling', 'Subaru', 'Suzuki', 'Tesla', 'Toyota', 'Triumph', 'TVR', 'VinFast', 'Volkswagen', 'Volvo', 'Yugo', 'Zeekr'
   ];
   models: { [key: string]: string[] } = {
-    'Acura': ['TLX', 'RDX', 'MDX', 'ILX', 'Integra', 'NSX', 'TL', 'RL', 'RLX', 'CSX', 'ZDX', 'Legend', 'Vigor', 'EL'],
-    'Alfa Romeo': ['Giulia', 'Stelvio', 'Tonale', '4C', 'GTV', 'Spider', 'MiTo', '159', 'Brera', 'Giulietta', 'GT', 'SZ', 'RZ'],
-    'American General': ['HMMWV / Humvee', 'M35 truck series', 'M939 truck series', 'Military trucks & tactical vehicles', 'Commercial vans / utility vehicles'],
-    'American Motors': ['Javelin', 'AMX', 'Gremlin', 'Hornet', 'Concord', 'Spirit', 'Eagle', 'Matador', 'Rebel', 'Ambassador', 'Marlin', 'Pacer'],
-    'ARO': ['IMS series', 'ARO 24 Series', 'ARO 10 Series'],
-    'Aston Martin': ['Vantage', 'DB11', 'DB9', 'DBX', 'Rapide', 'Vanquish', 'Valhalla', 'Valhalla Roadster', 'Valkyrie', 'Valkyrie AMR Pro', 'Cygnet', 'One-77', 'Lagonda'],
-    'Audi': ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'Q2', 'Q3', 'Q4', 'Q5', 'Q7', 'Q8', 'TT', 'TTS', 'R8', 'e-tron', 'RS models', 'S models'],
-    'Automobili Pininfarina': ['Pininfarina Battista', 'Pininfarina B95'],
-    'Avanti': ['Avanti (original)', 'Avanti II', 'Avanti (post‑II)', 'Avanti Convertible', 'Avanti Long‑Wheelbase Coupe', 'Avanti 4‑Door Sedan', 'Studebaker XUV', 'SVO Lister'],
-    'Azure Dynamics': ['Transit Connect Electric', 'Balance Hybrid Electric', 'Force Drive Electric (powertrain deployment)'],
-    'Bentley': ['Continental', 'Flying Spur', 'Bentayga', 'Mulsanne', 'Arnage', 'Azure', 'Brooklands', 'Turbo R', 'Eight', 'EXP series'],
-    'BMW': ['1 Series', '2 Series', '3 Series', '4 Series', '5 Series', '6 Series', '7 Series', '8 Series','X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'Z4', 'i3', 'i4', 'i7', 'iX', 'iX3', 'M Series'],
-    'BrightDrop': ['BrightDrop 400', 'BrightDrop 600'],
-    'Bugatti': ['Veyron', 'Chiron', 'Divo', 'Centodieci', 'La Voiture Noire', 'Bolide', 'EB110', 'Type 35', 'Type 41 Royale', 'Type 57', 'Type 55', 'Type 13', 'Type 18', 'Type 23'],
-    'Buick': ['Enclave', 'Envision', 'Encore', 'Encore GX', 'Regal', 'Regal TourX', 'LaCrosse', 'Verano', 'Riviera', 'Century', 'Skylark', 'Electra', 'Roadmaster'],
-    'BYD': ['Tang', 'Song', 'Han', 'Yuan', 'Dolphin', 'Seal', 'Atto 3', 'Qin', 'F0', 'F3', 'F6', 'e6', 'S2', 'e1', 'M3', 'T3'],
-    'Cadillac': ['CT4', 'CT5', 'CT6', 'CTS', 'ATS', 'XTS', 'Escalade', 'XT4', 'XT5', 'XT6', 'SRX', 'ELR', 'DTS', 'Seville', 'Eldorado', 'DeVille', 'Fleetwood', 'Brougham'],
-    'Chevrolet': ['Spark', 'Aveo', 'Sonic', 'Malibu', 'Impala', 'Cruze', 'Volt', 'Camaro', 'Corvette', 'Trailblazer', 'Equinox', 'Blazer', 'Traverse', 'Tahoe', 'Suburban', 'Colorado', 'Silverado', 'Express', 'Bolt EV', 'Menlo', 'Orlando', 'Captiva'],
+    'Acura': [
+        'ILX', 'TLX', 'RLX', 'TSX', 'Integra', 'Legend', 'CL', 'EL', 'RL', 'TL',
+        'CSX', 'RSX', 'MDX', 'RDX', 'ZDX', 'SLX', 'Vigor', 'NSX'
+    ],
+    'Alfa Romeo': [
+        'Giulia', 'Stelvio', 'Tonale', '4C', '8C', 'Spider', 'GTV', '166', '159', 
+        '147', '156', 'Brera', 'MiTo', 'Giulietta'
+    ],
+    'American General': [
+        'HMMWV', 'Humvee', 'M35', 'M939', 'Hummer H1'
+    ],
+    'American Motors': [
+        'Gremlin', 'Hornet', 'Pacer', 'Matador', 'Concord', 'Spirit',
+        'Rambler', 'Eagle', 'Ambassador', 'AMX', 'Javelin'
+    ],
+    'ARO': [
+        '24 Series', '26 Series', '10 Series', 'M461', 'Dragon', 'Spartan'
+    ],
+    'Aston Martin': [
+        'DB11', 'DB12', 'DB9', 'DBS', 'DBS Superleggera', 'DBX',
+        'Vantage', 'Vanquish', 'Virage', 'Rapide', 'Lagonda',
+        'DB7', 'DB5', 'DB4'
+    ],
+    'Audi': [
+        'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8',
+        'Q2', 'Q3', 'Q4 e-tron', 'Q5', 'Q7', 'Q8', 'Q8 e-tron',
+        'TT', 'R8', 'e-tron GT', 'RS Series', 'S Series'
+    ],
+    'Automobili Pininfarina': [
+        'Battista', 'Barchetta'
+    ],
+    'Avanti': [
+        'Avanti II', 'Studebaker Avanti', 'Avanti Convertible', 'Avanti Coupe',
+        'Avanti LTS', 'Avanti Touring Sedan'
+    ],
+    'Azure Dynamics': [
+        'Transit Connect Electric', 'Balance Hybrid Electric', 'Force Drive'
+    ],
+    'Bentley': [
+        'Continental GT', 'Flying Spur', 'Bentayga', 'Mulsanne', 'Arnage', 'Azure', 'Brooklands', 'Turbo R', 'Turbo RT', 'Continental Flying Spur'
+    ],
+    'BMW': [
+        '1 Series', '2 Series', '3 Series', '4 Series', '5 Series', '6 Series', '7 Series', '8 Series',
+        'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7',
+        'Z3', 'Z4', 'Z8',
+        'i3', 'i4', 'iX', 'iX3', 'i8',
+        'M2', 'M3', 'M4', 'M5', 'M6', 'MX5'
+    ],
+    'BrightDrop': [
+        'EV600', 'EV410', 'Zevo 600', 'Zevo 400'
+    ],
+    'Bugatti': [
+        'Chiron', 'Divo', 'Centodieci', 'Veyron', 'La Voiture Noire', 'EB110', 'Type 35', 'Type 41 Royale', 'Bolide', 'Mistral'
+    ],
+    'Buick': [
+        'Enclave', 'Envision', 'Encore', 'Encore GX', 'Regal', 'LaCrosse', 'Verano', 'Riviera', 'Century', 'Electra', 'Park Avenue'
+    ],
+    'BYD': [
+        'Tang', 'Han', 'Song', 'Yuan', 'e6', 'D1', 'D2', 'Qin', 'Seal', 'Atto 3', 'Dolphin', 'F3', 'F0', 'S2', 'S7'
+    ],
+    'Cadillac': [
+        'CT4', 'CT5', 'CT6', 'CTS', 'ATS', 'XTS', 'Escalade', 'XT4', 'XT5', 'XT6', 'ELR', 'SRX', 'STS', 'BLS', 'Catera', 'DeVille', 'Fleetwood', 'Seville'
+    ],
+    'Chevrolet': [
+        'Spark', 'Aveo', 'Sonic', 'Malibu', 'Impala', 'Cruze', 'Volt', 'Camaro', 'Corvette', 'Trailblazer', 'Equinox', 'Blazer', 'Traverse', 'Tahoe', 'Suburban', 'Colorado', 'Silverado', 'Express', 'Bolt EV', 'Menlo', 'Orlando', 'Captiva'
+    ],
     'Chrysler': [
         '200', '300', '300C', '300M', 'Aspen', 'Pacifica',
         'Sebring', 'Concorde', 'Crossfire', 'PT Cruiser',
@@ -229,7 +277,7 @@ export class Form implements OnInit {
         'Ghibli', 'Quattroporte', 'Levante', 'GranTurismo', 'GranCabrio', 'MC20', 'Alfieri'
     ],
     'Maybach': [
-        'S-Class Maybach', 'Maybach GLS', 'Vision Maybach 6', 'Maybach Pullman', 'Maybach 62', 'Maybach 57'
+        'S-Class Maybach', 'GLS', 'Vision Maybach 6', 'Maybach Pullman', 'Maybach 62', 'Maybach 57'
     ],
     'Mazda': [
         'Mazda2', 'Mazda3', 'Mazda6', 'CX-3', 'CX-30', 'CX-4', 'CX-5', 'CX-50', 'CX-60', 'CX-70', 'CX-7', 'CX-8', 'CX-9', 'MX-5', 'RX-7', 'RX-8', 'Mazda5', 'Mazda B-Series', 'Premacy', 'MPV'
@@ -335,206 +383,295 @@ export class Form implements OnInit {
     ]
   };
   submodels: { [key: string]: string[] } = {
-    'Acura TLX': ['Base', 'Technology', 'Advance'],
-    'Acura RDX': ['Base', 'Technology', 'Advance'],
-    'Acura MDX': ['Base', 'Technology', 'Advance'],
-    'Acura ILX': ['Base', 'Technology'],
-    'Acura Integra': ['Base', 'A-Spec', 'Type S'],
+    'Acura ILX': ['Base', 'Premium', 'Technology', 'A-Spec'],
+    'Acura TLX': ['Base', 'Technology', 'A-Spec', 'Advance', 'Type S'],
+    'Acura RLX': ['Base', 'Technology', 'Advance', 'Sport Hybrid'],
+    'Acura TSX': ['Base', 'Sport', 'Technology'],
+    'Acura Integra': ['Base', 'A-Spec', 'A-Spec Tech', 'Type S'],
+    'Acura Legend': ['Base', 'L', 'LS', 'GS'],
+    'Acura CL': ['Base', 'Type S'],
+    'Acura EL': ['Base', 'Sport', 'Premium'],
+    'Acura RL': ['Base', 'Technology', 'Advance'],
+    'Acura TL': ['Base', 'Special Edition', 'Technology', 'SH-AWD', 'Type S'],
+    'Acura CSX': ['Base', 'Sport', 'Premium'],
+    'Acura RSX': ['Base', 'Type S'],
+    'Acura MDX': ['Base', 'Technology', 'A-Spec', 'Advance', 'Type S'],
+    'Acura RDX': ['Base', 'Technology', 'A-Spec', 'Advance'],
+    'Acura ZDX': ['Base', 'A-Spec', 'Type S'],
+    'Acura SLX': ['Base', 'Premium'],
+    'Acura Vigor': ['LS', 'GS'],
     'Acura NSX': ['Base', 'Type S'],
-    'Acura TL': ['Base', 'Type-S', 'Tech'],
-    'Acura RL': ['Base', 'Tech', 'Sport Hybrid'],
-    'Acura RLX': ['Base', 'Tech', 'Sport Hybrid'],
-    'Acura CSX': ['Base', 'Premium'],
-    'Acura ZDX': ['Base', 'Tech', 'Advance'],
-    'Acura Legend': ['Base', 'LS', 'GS'],
-    'Acura Vigor': ['Base', 'GS'],
-    'Acura EL': ['Base', 'Premium'],
 
-    'Alfa Romeo Giulia': ['Base', 'Ti', 'Quadrifoglio'],
-    'Alfa Romeo Stelvio': ['Base', 'Ti', 'Quadrifoglio'],
-    'Alfa Romeo Tonale': ['Base', 'Ti'],
-    'Alfa Romeo 4C': ['Base', 'Spider'],
-    'Alfa Romeo GTV': ['Base', 'V6'],
-    'Alfa Romeo Spider': ['Base', 'Veloce'],
-    'Alfa Romeo MiTo': ['Base', 'Quadrifoglio Verde'],
-    'Alfa Romeo 159': ['Base', 'Sport', 'TI'],
-    'Alfa Romeo Brera': ['Base', 'SkyView'],
-    'Alfa Romeo Giulietta': ['Base', 'Veloce', 'Quadrifoglio Verde'],
-    'Alfa Romeo GT': ['Base', 'V6'],
-    'Alfa Romeo SZ': ['Base', 'Sprint Zagato'],
-    'Alfa Romeo RZ': ['Base', 'Roadster Zagato'],
+    'Alfa Romeo Giulia': ['Base', 'Ti', 'Sprint', 'Veloce', 'Quadrifoglio'],
+    'Alfa Romeo Stelvio': ['Base', 'Ti', 'Sprint', 'Veloce', 'Quadrifoglio'],
+    'Alfa Romeo Tonale': ['Sprint', 'Ti', 'Veloce'],
+    'Alfa Romeo 4C': ['Coupe', 'Spider'],
+    'Alfa Romeo 8C': ['Competizione', 'Spider'],
+    'Alfa Romeo Spider': ['Base', 'Veloce', 'Quadrifoglio Verde'],
+    'Alfa Romeo GTV': ['Base', 'Lusso', 'Veloce'],
+    'Alfa Romeo 166': ['Base', 'Lusso', 'Super'],
+    'Alfa Romeo 159': ['Base', 'Progression', 'Distinctive', 'Ti'],
+    'Alfa Romeo 147': ['Base', 'Distinctive', 'Ti', 'GTA'],
+    'Alfa Romeo 156': ['Base', 'Progression', 'Distinctive', 'Ti', 'GTA'],
+    'Alfa Romeo Brera': ['Base', 'SV', 'S'],
+    'Alfa Romeo MiTo': ['Base', 'Progression', 'Distinctive', 'Quadrifoglio Verde'],
+    'Alfa Romeo Giulietta': ['Base', 'Progression', 'Distinctive', 'Veloce'],
 
-    'HMMWV / Humvee': ['Standard military HMMWV', 'Up‑armored HMMWV', 'Special‑purpose variants (troop carrier, cargo, ambulance, weapons‑platform, etc.)'],
-    'M35 truck series': ['2½‑ton cargo truck', 'Cargo / troop transport', 'Wrecker / utility variants'],
-    'M939 truck series': ['5‑ton cargo truck', 'Cargo / troop transport', 'Special‑purpose variants'],
-    'Commercial vans / utility vehicles': ['Postal / delivery vans (historic)', 'Utility / service vans and trucks (contract / fleet use)'],
+    'American General HMMWV': [
+        'M998', 'M1025', 'M1035', 'M1043', 'M1097', 'M1113', 'M1151', 'M1165'
+    ],
 
-    'AMC Javelin': ['Base', ' SST', 'AMX Package', 'Machine'],
-    'AMC AMX': ['Base', '390', 'Go Package', 'Big Block'],
-    'AMC Gremlin': ['Base', 'X', 'GT', 'SC/360'],
-    'AMC Hornet': ['Base', 'Sportabout', 'SC/360', 'X', 'DL'],
-    'AMC Concord': ['Base', 'DL', 'Limited', 'AMX Package'],
-    'AMC Spirit': ['Base', 'DL', 'GT', 'X'],
-    'AMC Eagle': ['Base', 'SX/4', '4WD'],
-    'AMC Matador': ['Base', ' coupe', 'Sedan', 'Barcelona Package'],
-    'AMC Rebel': ['Base', 'Machine', 'Crossover', 'SST'],
-    'AMC Ambassador': ['Base', 'DPL', 'SST', 'Brougham'],
-    'AMC Marlin': ['Base', 'GT', 'Fastback'],
-    'AMC Pacer': ['Base', 'DL', 'Limited', 'X'],
+    'American General Humvee': [
+        'M998', 'M1025', 'M1035', 'M1043', 'M1097', 'M1113', 'M1151', 'M1165'
+    ],
 
-    'ARO IMS': ['IMS‑57', 'M59', 'M461', 'M461 C', 'M473', '304 (special)', '306 (special)'],
-    'ARO 24 Series': ['ARO 240', 'ARO 241', 'ARO 242 (pickup)', 'ARO 243 (3‑door)', 'ARO 244 (4‑door SUV)', 'ARO 246', 'ARO 263', 'ARO 264', 'ARO 266', 'ARO 242‑pickup', 'ARO 320‑pickup', 'ARO Dragon (military / special)'],
-    'ARO 10 Series': ['ARO 10.1', 'ARO 10.4', 'ARO 10 Spartana', 'ARO 11.4','ARO 10.2', 'ARO 10.3', 'ARO 10.6 (pickup)', 'ARO 10.9', 'ARO 10.0', 'ARO 11.9', 'ARO 10 Super'],
+    'American General M35': [
+        'M35A1', 'M35A2', 'M35A3'
+    ],
 
-    'Aston Martin Vantage': ['Base', 'AMR', 'Roadster', 'V8', 'V12'],
+    'American General M939': [
+        'M923', 'M925', 'M927', 'M928', 'M929', 'M930'
+    ],
+
+    'American General Hummer H1': [
+        'Base', 'Wagon', 'Slantback', '4-Door Hardtop', '4-Door Softtop', 'Alpha'
+    ],
+
+    'American Motors Gremlin': ['Base', 'Custom', 'X'],
+    'American Motors Hornet': ['Base', 'Sportabout', 'AMX', 'DL'],
+    'American Motors Pacer': ['Base', 'DL', 'Limited'],
+    'American Motors Matador': ['Base', 'Coupe', 'Sedan', 'Wagon', 'X'],
+    'American Motors Concord': ['Base', 'DL', 'Limited'],
+    'American Motors Spirit': ['Base', 'GT', 'Limited', 'AMX'],
+    'American Motors Rambler': ['American', 'Classic', 'Rebel'],
+    'American Motors Eagle': ['Sedan', 'Wagon', 'SX/4', 'Kammback', 'Limited'],
+    'American Motors Ambassador': ['Base', 'Custom', 'DPL', 'Brougham'],
+    'American Motors AMX': ['Base', 'Go Pack'],
+    'American Motors Javelin': ['Base', 'SST', 'AMX'],
+
+    'ARO 24 Series': [
+        '240', '241', '242', '243', '244', '246'
+    ],
+
+    'ARO 26 Series': [
+        '260', '261', '262', '263'
+    ],
+
+    'ARO 10 Series': [
+        '10', '11', '12', '10.4', '10.9'
+    ],
+
+    'ARO M461': [
+        'Base', 'Military', 'Utility'
+    ],
+
+    'ARO Dragon': [
+        'Base', 'Turbo', '4x4'
+    ],
+
+    'ARO Spartan': [
+        'Base', '4x4', 'Utility'
+    ],
+
     'Aston Martin DB11': ['V8', 'V12', 'AMR'],
-    'Aston Martin DB9': ['Base', 'Volante', 'GT', 'LM'],
-    'Aston Martin DBX': ['Base', '707', '707 Edition', 'AMR', '707 AMR Edition'],
-    'Aston Martin Rapide': ['S', 'E', 'AMR'],
-    'Aston Martin Vanquish': ['Base', 'S', 'Volante', 'AMR'],
-    'Aston Martin Valhalla': ['Standard', 'AMR Pro'],
-    'Aston Martin Valkyrie': ['Roadster', 'AMR Pro'],
-    'Aston Martin Cygnet': ['Base', 'City Car'],
-    'Aston Martin One-77': ['Standard', 'Special Editions'],
-    'Aston Martin Lagonda': ['Taraf', 'All-electric future concept'],
+    'Aston Martin DB12': ['Coupe', 'Volante'],
+    'Aston Martin DB9': ['Base', 'Volante', 'GT'],
+    'Aston Martin DBS': ['Superleggera', 'Volante'],
+    'Aston Martin DBS Superleggera': ['Coupe', 'Volante'],
+    'Aston Martin DBX': ['Base', '707'],
+    'Aston Martin Vantage': ['Base', 'AMR', 'F1 Edition', 'Roadster'],
+    'Aston Martin Vanquish': ['Base', 'S', 'Volante'],
+    'Aston Martin Virage': ['Coupe', 'Volante'],
+    'Aston Martin Rapide': ['Base', 'S', 'E'],
+    'Aston Martin Lagonda': ['Taraf'],
+    'Aston Martin DB7': ['I6', 'V12', 'Vantage', 'Volante'],
+    'Aston Martin DB5': ['Standard', 'Vantage', 'Convertible'],
+    'Aston Martin DB4': ['Series 1', 'Series 2', 'Series 3', 'Series 4', 'Series 5'],
 
-    'Audi A1': ['Base', 'Sport', 'S line', 'Citycarver'],
-    'Audi A3': ['Base', 'Sport', 'S line', 'e-tron', 'Sedan', 'Sportback'],
-    'Audi A4': ['Premium', 'Premium Plus', 'Prestige', 'S line'],
-    'Audi A5': ['Coupe', 'Sportback', 'S line', 'Prestige', 'S5'],
-    'Audi A6': ['Premium', 'Premium Plus', 'Prestige', 'S line', 'S6'],
-    'Audi A7': ['Premium', 'Premium Plus', 'Prestige', 'S line', 'S7'],
-    'Audi A8': ['Standard', 'L', 'S line', 'S8'],
-    'Audi Q2': ['Base', 'S line', 'Edition #1'],
-    'Audi Q3': ['Premium', 'Premium Plus', 'Prestige', 'S line'],
-    'Audi Q4': ['e-tron', 'S line', 'Sportback'],
-    'Audi Q5': ['Premium', 'Premium Plus', 'Prestige', 'S line', 'SQ5'],
-    'Audi Q7': ['Premium', 'Premium Plus', 'Prestige', 'S line', 'SQ7'],
-    'Audi Q8': ['Premium', 'Premium Plus', 'Prestige', 'S line', 'SQ8', 'RS Q8'],
-    'Audi TT': ['Base', 'S line', 'TTS'],
-    'Audi TTS': ['Coupe', 'Roadster'],
-    'Audi R8': ['V10', 'V10 Performance', 'Spyder', 'V10 Plus'],
-    'Audi e-tron': ['50', '55', 'Sportback', 'GT', 'S'],
-    'Audi RS models': ['RS3', 'RS4', 'RS5', 'RS6', 'RS7', 'RS Q3', 'RS Q5', 'RS Q8'],
-    'Audi S models': ['S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'SQ5', 'SQ7', 'SQ8'],
+    'Audi A1': ['Base', 'Sport', 'S Line'],
+    'Audi A2': ['Base', 'SE', 'Sport'],
+    'Audi A3': ['Premium', 'Premium Plus', 'Prestige', 'S3', 'RS3'],
+    'Audi A4': ['Premium', 'Premium Plus', 'Prestige', 'S4', 'allroad'],
+    'Audi A5': ['Premium', 'Premium Plus', 'Prestige', 'S5', 'RS5'],
+    'Audi A6': ['Premium', 'Premium Plus', 'Prestige', 'S6', 'RS6 Avant'],
+    'Audi A7': ['Premium', 'Premium Plus', 'Prestige', 'S7', 'RS7'],
+    'Audi A8': ['L', 'L Sport', 'L Horch', 'S8'],
 
-    'Pininfarina Battista': ['Standard'],
-    'Pininfarina B95': ['Standard'],
+    'Audi Q2': ['Base', 'Sport', 'S Line'],
+    'Audi Q3': ['Premium', 'Premium Plus', 'Prestige', 'RS Q3'],
+    'Audi Q4 e-tron': ['Base', 'Premium', 'Premium Plus'],
+    'Audi Q5': ['Premium', 'Premium Plus', 'Prestige', 'SQ5'],
+    'Audi Q7': ['Premium', 'Premium Plus', 'Prestige', 'SQ7'],
+    'Audi Q8': ['Premium', 'Premium Plus', 'Prestige', 'SQ8', 'RS Q8'],
+    'Audi Q8 e-tron': ['Premium', 'Sportback', 'Prestige'],
 
-    'Avanti (original)': ['Coupe'],
-    'Avanti II': ['Coupe'],
-    'Avanti (post‑II)': ['Coupe', 'Convertible', 'Long‑Wheelbase Coupe', '4‑Door Sedan'],
-    'Avanti Convertible': ['Convertible'],
-    'Avanti Long‑Wheelbase Coupe': ['Long‑Wheelbase Coupe'],
-    'Avanti 4‑Door Sedan': ['4‑Door Sedan'],
-    'Studebaker XUV': ['SUV / Utility Concept'],
-    'SVO Lister': ['Sports‑car / Replica Concept'],
+    'Audi TT': ['Coupe', 'Roadster', 'TTS', 'TT RS'],
+    'Audi R8': ['V10', 'V10 Plus', 'Performance', 'Spyder'],
+
+    'Audi e-tron GT': ['Premium Plus', 'Prestige', 'RS e-tron GT'],
+
+    'Audi RS Series': [
+        'RS3', 'RS4 Avant', 'RS5', 'RS6 Avant', 'RS7', 'RS Q3', 'RS Q8', 'RS e-tron GT'
+    ],
+
+    'Audi S Series': [
+        'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'SQ5', 'SQ7', 'SQ8'
+    ],
+
+    'Automobili Pininfarina Battista': [
+      'Base', 'Anniversario', 'Battista Cinquantacinque', 'Furiosa', 'Nero', 'Bianco', 'Gorizia', 'Pura', 'Special Bespoke Editions'
+    ],
+    'Automobili Pininfarina Barchetta': [
+      'Limited Edition', 'Bespoke Commission'
+    ],
+
+    'Avanti Avanti II': [
+        'Base', 'Luxury', 'Coupe', 'Convertible'
+    ],
+
+    'Avanti Studebaker Avanti': [
+        'R1', 'R2', 'R3', 'Base'
+    ],
+
+    'Avanti Avanti Convertible': [
+        'Base', 'Luxury'
+    ],
+
+    'Avanti Avanti Coupe': [
+        'Base', 'Luxury'
+    ],
+
+    'Avanti Avanti LTS': [
+        'Base', 'Luxury', 'Touring'
+    ],
+
+    'Avanti Avanti Touring Sedan': [
+        'Base', 'Luxury'
+    ],
+
+    'Azure Dynamics Transit Connect Electric': [
+        'Cargo Van', 'Passenger Wagon'
+    ],
+
+    'Azure Dynamics Balance Hybrid Electric': [
+        'Step Van', 'Walk-in Van'
+    ],
+
+    'Azure Dynamics Force Drive': [
+        'Electric Drivetrain System'
+    ],
 
     'Transit Connect Electric': ['Standard electric van'],
     'Balance Hybrid Electric': ['Standard hybrid commercial van/truck/shuttle configuration'],
     'Force Drive Electric': ['Used in EV conversions / integrations on various commercial vehicles'],
 
-    'Bentley Continental': ['GT', 'GTC', 'Speed', 'GT3-R', 'Supersports'],
-    'Bentley Flying Spur': ['Base', 'V8', 'W12', 'Speed'],
-    'Bentley Bentayga': ['Base', 'V8', 'W12', 'Speed', 'Hybrid'],
+    'Bentley Continental GT': ['Base', 'V8', 'Speed', 'Supersports', 'Convertible', 'Cabriolet'],
+    'Bentley Flying Spur': ['V8', 'W12', 'S', 'Speed'],
+    'Bentley Bentayga': ['V8', 'W12', 'Speed', 'Hybrid'],
     'Bentley Mulsanne': ['Base', 'Speed', 'Extended Wheelbase'],
-    'Bentley Arnage': ['Base', 'Red Label', 'Green Label', 'T', 'R'],
-    'Bentley Azure': ['Convertible', 'T', 'Final Series'],
-    'Bentley Brooklands': ['Coupe', 'Speed', 'Final Series'],
-    'Bentley Turbo R': ['Base', 'Long Wheelbase'],
-    'Bentley Eight': ['Base'],
-    'Bentley EXP series': ['EXP 10 Speed 6', 'EXP 12 Speed 6e', 'EXP 100 GT'],
+    'Bentley Arnage': ['Base', 'Red Label', 'T', 'R', 'RL'],
+    'Bentley Azure': ['Convertible', 'Base', 'T'],
+    'Bentley Brooklands': ['Coupe', 'Base', 'Speed'],
+    'Bentley Turbo R': ['Base', 'S', 'LWB'],
+    'Bentley Turbo RT': ['Base', 'S', 'LWB'],
+    'Bentley Continental Flying Spur': ['V8', 'W12', 'Speed'],
 
-    'BMW 1 Series': ['Base', 'M Sport', '118i', '120i', '128ti'],
-    'BMW 2 Series': ['Coupe', 'Gran Coupe', 'Convertible', 'M240i', 'M2'],
-    'BMW 3 Series': ['Sedan', 'Touring', 'Gran Turismo', '330i', 'M340i', 'M3'],
-    'BMW 4 Series': ['Coupe', 'Convertible', 'Gran Coupe', '430i', 'M440i', 'M4'],
-    'BMW 5 Series': ['Sedan', '530i', '540i', 'M550i', 'M5'],
-    'BMW 6 Series': ['Gran Turismo', 'M6'],
-    'BMW 7 Series': ['730i', '740i', '750i', 'M760i', 'i7'],
-    'BMW 8 Series': ['Coupe', 'Convertible', 'Gran Coupe', 'M850i', 'M8'],
-    'BMW X1': ['sDrive', 'xDrive', 'M Sport'],
-    'BMW X2': ['sDrive', 'xDrive', 'M35i'],
-    'BMW X3': ['xDrive30i', 'M40i', 'M', 'X3M'],
-    'BMW X4': ['xDrive30i', 'M40i', 'X4M'],
-    'BMW X5': ['xDrive40i', 'M50i', 'X5M'],
-    'BMW X6': ['xDrive40i', 'M50i', 'X6M'],
-    'BMW X7': ['xDrive40i', 'M50i', 'X7 M50i'],
-    'BMW Z4': ['sDrive30i', 'M40i'],
-    'BMW i3': ['Standard', 'i3s'],
+    'BMW 1 Series': ['118i', '120i', '125i', '128i', 'M135i', 'M140i'],
+    'BMW 2 Series': ['218i', '220i', '228i', 'M235i', 'M240i', 'Gran Coupe', 'Convertible'],
+    'BMW 3 Series': ['318i', '320i', '330i', '340i', 'M3', 'Touring', 'Gran Turismo'],
+    'BMW 4 Series': ['420i', '430i', '440i', 'M4', 'Coupe', 'Convertible', 'Gran Coupe'],
+    'BMW 5 Series': ['520i', '530i', '540i', 'M550i', '530e', 'Touring'],
+    'BMW 6 Series': ['630i', '640i', '650i', 'Gran Coupe', 'Convertible', 'Coupe'],
+    'BMW 7 Series': ['740i', '750i', '760i', 'M760Li', 'ALPINA B7'],
+    'BMW 8 Series': ['840i', '850i', 'M8', 'Gran Coupe', 'Convertible', 'Coupe'],
+
+    'BMW X1': ['sDrive18i', 'xDrive20i', 'xDrive25i', 'xDrive28i'],
+    'BMW X2': ['sDrive18i', 'xDrive20i', 'M35i'],
+    'BMW X3': ['xDrive20i', 'xDrive30i', 'M40i', 'M'],
+    'BMW X4': ['xDrive30i', 'M40i', 'M'],
+    'BMW X5': ['xDrive40i', 'xDrive50i', 'M50i', 'M'],
+    'BMW X6': ['xDrive40i', 'xDrive50i', 'M50i', 'M'],
+    'BMW X7': ['xDrive40i', 'xDrive50i', 'M50i', 'M'],
+
+    'BMW Z3': ['Roadster', 'Coupe', 'M'],
+    'BMW Z4': ['sDrive20i', 'sDrive30i', 'M40i', 'M'],
+    'BMW Z8': ['Base'],
+
+    'BMW i3': ['Standard', 'Range Extender', 'S'],
     'BMW i4': ['eDrive40', 'M50'],
-    'BMW i7': ['Base', 'M70'],
     'BMW iX': ['xDrive40', 'xDrive50', 'M60'],
-    'BMW iX3': ['Base'],
-    'BMW M Series': ['M2', 'M3', 'M4', 'M5', 'M8', 'XM', 'X3M', 'X4M', 'X5M', 'X6M', 'X7M'],
+    'BMW iX3': ['Base', 'M Sport'],
+    'BMW i8': ['Coupe', 'Roadster'],
 
-    'BrightDrop 400': ['Base (short‑wheelbase van)', 'FWD', 'AWD'],
-    'BrightDrop 600': ['Base (long‑wheelbase van)', 'FWD', 'AWD'],
+    'BMW M2': ['Base', 'Competition', 'CS'],
+    'BMW M3': ['Base', 'Competition', 'GTS'],
+    'BMW M4': ['Base', 'Competition', 'Convertible', 'GTS'],
+    'BMW M5': ['Base', 'Competition', 'CS'],
+    'BMW M6': ['Base', 'Gran Coupe', 'Convertible', 'Competition'],
+    'BMW MX5' : [],
 
-    'Bugatti Veyron': ['16.4', 'Grand Sport', 'Super Sport', 'Pur Sang', 'L’Or Blanc', 'Sang Noir'],
-    'Bugatti Chiron': ['Base', 'Sport', 'Pur Sport', 'Super Sport 300+', 'Noire Edition', 'Les Légendes de Bugatti'],
-    'Bugatti Divo': ['Standard'],
-    'Bugatti Centodieci': ['Standard'],
+    'BrightDrop EV600': ['Standard', 'Pro', 'Max Range'],
+    'BrightDrop EV410': ['Standard', 'Pro', 'Max Range'],
+    'BrightDrop Zevo 600': ['Cargo Van', 'Delivery Van', 'Long Range'],
+    'BrightDrop Zevo 400': ['Cargo Van', 'Delivery Van', 'Urban Range'],
+
+    'Bugatti Chiron': ['Standard', 'Sport', 'Super Sport', 'Pur Sport', 'Noire Edition', 'Sang Noir'],
+    'Bugatti Divo': ['Standard', 'Edition One', 'Black Bess', 'Légende'],
+    'Bugatti Centodieci': ['Base', 'Limited Edition'],
+    'Bugatti Veyron': ['16.4', 'Super Sport', 'Grand Sport', 'Sang Noir'],
     'Bugatti La Voiture Noire': ['One-Off'],
-    'Bugatti Bolide': ['Track Spec'],
-    'Bugatti EB110': ['GT', 'SS', 'Super Sport LM'],
-    'Bugatti Type 35': ['Grand Prix', 'T35C', 'T35B', 'T35T'],
-    'Bugatti Type 41 Royale': ['Standard', 'Coupe Napoleon', 'Sedan'],
-    'Bugatti Type 57': ['SC Atlantic', 'Atalante', 'Ventoux', 'Coureur', 'S', 'Touring'],
-    'Bugatti Type 55': ['Roadster', 'Tourer'],
-    'Bugatti Type 13': ['Brescia', 'Roadster'],
-    'Bugatti Type 18': ['Black Bess'],
-    'Bugatti Type 23': ['Tank'],
+    'Bugatti EB110': ['GT', 'SS', 'Super Sport', 'SS LM'],
+    'Bugatti Type 35': ['Standard', 'Grand Prix', 'Replica'],
+    'Bugatti Type 41 Royale': ['Standard', 'Touring', 'Limousine'],
+    'Bugatti Bolide': ['Prototype', 'Track', 'Limited Edition'],
+    'Bugatti Mistral': ['Base', 'Special Edition'],
 
-    'Buick Enclave': ['Base', 'Preferred', 'Avenir', 'Premium', 'Essence'],
-    'Buick Envision': ['Preferred', 'Essence', 'Premium', 'Avenir'],
-    'Buick Encore': ['Base', 'Preferred', 'Sport Touring', 'Essence', 'Avenir'],
-    'Buick Encore GX': ['Preferred', 'Essence', 'Avenir'],
-    'Buick Regal': ['TourX', 'GS', 'Sportback', 'Preferred', 'Essence'],
-    'Buick Regal TourX': ['Preferred', 'Essence', 'Avenir'],
-    'Buick LaCrosse': ['Preferred', 'Essence', 'Avenir'],
-    'Buick Verano': ['Base', 'Sport Touring', 'Turbo', 'Leather Group'],
-    'Buick Riviera': ['Standard'],
-    'Buick Century': ['Base', 'Custom', 'Limited', 'Special Edition'],
-    'Buick Skylark': ['Base', 'GS', 'Gran Sport'],
-    'Buick Electra': ['Base', 'Park Avenue', 'Limited'],
-    'Buick Roadmaster': ['Base', 'Estate', 'Limited'],
+    'Buick Enclave': ['Preferred', 'Essence', 'Avenir', 'CXL', 'CXL Premium'],
+    'Buick Envision': ['Preferred', 'Essence', 'Avenir', 'Premium'],
+    'Buick Encore': ['Base', 'Preferred', 'Sport Touring', 'Essence', 'Premium'],
+    'Buick Encore GX': ['Preferred', 'Select', 'Essence', 'Avenir'],
+    'Buick Regal': ['TourX', 'GS', 'Sportback', 'Avenir', 'Touring'],
+    'Buick LaCrosse': ['Sport Touring', 'Essence', 'Premium', 'Avenir'],
+    'Buick Verano': ['Base', 'Convenience', 'Leather', 'Turbo', 'Sport Touring'],
+    'Buick Riviera': ['Base', 'CXL', 'CXS'],
+    'Buick Century': ['Base', 'Custom', 'Limited'],
+    'Buick Electra': ['225', '225 Custom', '225 Limited'],
+    'Buick Park Avenue': ['Base', 'Ultra', 'Ultra Luxury'],
 
-    'BYD Tang': ['DM', 'DM-i', 'EV', 'Pro', 'Max'],
-    'BYD Song': ['DM', 'DM-i', 'EV', 'Pro', 'Plus'],
-    'BYD Han': ['EV', 'DM-i', 'DM', 'Pro', 'Max'],
-    'BYD Yuan': ['EV', 'DM', 'Pro'],
-    'BYD Dolphin': ['Standard', 'Pro'],
-    'BYD Seal': ['Standard', 'Performance'],
+    'BYD Tang': ['DM', 'DM-i', 'EV', 'Pro', 'EV600', 'DM Pro'],
+    'BYD Han': ['EV', 'DM-i', 'DM', 'Plus', 'Top', '4WD'],
+    'BYD Song': ['Pro', 'Plus', 'Max', 'EV', 'DM-i', 'DM'],
+    'BYD Yuan': ['EV', 'DM-i', 'Pro', 'Plus'],
+    'BYD e6': ['Base', 'Elite', 'Comfort', 'Pro'],
+    'BYD D1': ['Standard', 'Taxi', 'Fleet'],
+    'BYD D2': ['Standard', 'Taxi', 'Fleet'],
+    'BYD Qin': ['Pro', 'EV', 'DM', 'Plus'],
+    'BYD Seal': ['Standard', 'Performance', '4WD'],
     'BYD Atto 3': ['Standard', 'Pro', 'Performance'],
-    'BYD Qin': ['Pro', 'EV', 'Plus', 'DM-i'],
-    'BYD F0': ['Standard', 'Deluxe'],
-    'BYD F3': ['Standard', 'GL', 'GLX', 'Pro'],
-    'BYD F6': ['Standard', 'Deluxe', 'Pro'],
-    'BYD e6': ['Standard', 'Taxi', 'Fleet'],
-    'BYD S2': ['Standard', 'Pro'],
-    'BYD e1': ['Standard', 'Pro'],
-    'BYD M3': ['Standard', 'EV'],
-    'BYD T3': ['Commercial Van'],
+    'BYD Dolphin': ['Standard', 'Ocean', 'Ocean X'],
+    'BYD F3': ['Standard', 'Comfort', 'Luxury'],
+    'BYD F0': ['Standard', 'Deluxe', 'Sport'],
+    'BYD S2': ['Standard', 'Luxury', 'EV'],
+    'BYD S7': ['Standard', 'Pro', 'Luxury'],
     
-    'Cadillac CT4': ['Luxury', 'Sport', 'Premium Luxury', 'V-Series'],
-    'Cadillac CT5': ['Luxury', 'Sport', 'Premium Luxury', 'V-Series', 'CT5-V Blackwing'],
-    'Cadillac CT6': ['Luxury', 'Premium Luxury', 'Platinum', 'V-Series'],
-    'Cadillac CTS': ['Luxury', 'Performance', 'V-Series'],
-    'Cadillac ATS': ['Luxury', 'Performance', 'V-Series'],
+    'Cadillac CT4': ['Luxury', 'Premium Luxury', 'Sport', 'V-Series'],
+    'Cadillac CT5': ['Luxury', 'Premium Luxury', 'Sport', 'V-Series', 'Blackwing'],
+    'Cadillac CT6': ['Luxury', 'Premium Luxury', 'Platinum', 'V-Sport'],
+    'Cadillac CTS': ['Luxury', 'Performance', 'V-Series', 'CTS-V'],
+    'Cadillac ATS': ['Luxury', 'Performance', 'ATS-V'],
     'Cadillac XTS': ['Luxury', 'Premium Luxury', 'Platinum'],
-    'Cadillac Escalade': ['Standard', 'ESV', 'Premium Luxury', 'Sport', 'Platinum'],
+    'Cadillac Escalade': ['Standard', 'Luxury', 'Premium Luxury', 'ESV', 'Sport Platinum'],
     'Cadillac XT4': ['Luxury', 'Premium Luxury', 'Sport'],
     'Cadillac XT5': ['Luxury', 'Premium Luxury', 'Sport', 'Platinum'],
     'Cadillac XT6': ['Luxury', 'Premium Luxury', 'Sport', 'Platinum'],
-    'Cadillac SRX': ['Luxury', 'Performance'],
-    'Cadillac ELR': ['Standard'],
-    'Cadillac DTS': ['Standard', 'Luxury'],
-    'Cadillac Seville': ['SLS', 'STS', 'STS-V'],
-    'Cadillac Eldorado': ['Base', 'Touring', 'ETC'],
+    'Cadillac ELR': ['Base', 'Premium'],
+    'Cadillac SRX': ['Base', 'Luxury', 'Performance'],
+    'Cadillac STS': ['Base', 'Performance', 'V-Series'],
+    'Cadillac BLS': ['Base', 'Sport', 'Premium'],
+    'Cadillac Catera': ['Base', 'Luxury'],
     'Cadillac DeVille': ['Base', 'DTS', 'Concours'],
-    'Cadillac Fleetwood': ['Base', 'Sixty Special'],
-    'Cadillac Brougham': ['Standard'],
+    'Cadillac Fleetwood': ['Standard', 'Sixty Special', 'Brougham'],
+    'Cadillac Seville': ['Base', 'SLS', 'STS', 'STS-V'],
 
     'Chevrolet Spark': ['LS', 'LT', 'Activ', 'Premier'],
     'Chevrolet Aveo': ['Base', 'LT', 'LTZ'],
@@ -549,7 +686,7 @@ export class Form implements OnInit {
     'Chevrolet Equinox': ['L', 'LS', 'LT', 'Premier', 'RS'],
     'Chevrolet Blazer': ['L', 'LT', 'RS', 'Premier', 'SS'],
     'Chevrolet Traverse': ['L', 'LS', 'LT', 'RS', 'Premier', 'High Country'],
-    'Chevrolet Tahoe': ['LS', 'LT', 'Z71', 'Premier', 'RST', 'High Country', 'Z71'],
+    'Chevrolet Tahoe': ['LS', 'LT', 'Z71', 'Premier', 'RST', 'High Country'],
     'Chevrolet Suburban': ['LS', 'LT', 'Premier', 'RST', 'High Country'],
     'Chevrolet Colorado': ['Base', 'WT', 'LT', 'Z71', 'ZR2', 'ZQ8'],
     'Chevrolet Silverado': ['WT', 'LT', 'RST', 'LTZ', 'High Country', 'Trail Boss', 'Z71'],
@@ -557,7 +694,7 @@ export class Form implements OnInit {
     'Chevrolet Bolt EV': ['LT', 'Premier', 'EV'],
     'Chevrolet Menlo': ['Standard', 'Luxury'],
     'Chevrolet Orlando': ['LS', 'LT', 'LTZ'],
-    'Chevrolet Captiva': ['LS', 'LT', 'LTZ'],
+    'Chevrolet Captiva': ['LS', 'LT', 'LTZ'],
 
     'Chrysler 200': ['LX', 'Limited', 'S', 'C', 'Touring'],
     'Chrysler 300': ['Touring', 'Limited', 'S', 'C', 'C Platinum'],
@@ -1353,12 +1490,12 @@ export class Form implements OnInit {
     'Plymouth Proton': ['Base', 'GTi', 'Turbo'],
     'Plymouth Prowler': ['Base', 'LE', 'Special Edition'],
 
-    'Polestar 1': ['Base', 'Launch Edition', 'Carbon Edition'],
-    'Polestar 2': ['Standard', 'Long Range Single Motor', 'Long Range Dual Motor', 'Performance', 'Dual Motor Performance'],
-    'Polestar 3': ['Standard', 'Long Range', 'Performance', 'Launch Edition'],
-    'Polestar 4': ['Standard', 'Performance', 'Launch Edition'],
-    'Polestar 5': ['Standard', 'Performance', 'Launch Edition'],
-    'Polestar 6': ['Roadster', 'Performance', 'Launch Edition'],
+    'Polestar Polestar 1': ['Base', 'Launch Edition', 'Carbon Edition'],
+    'Polestar Polestar 2': ['Standard', 'Long Range Single Motor', 'Long Range Dual Motor', 'Performance', 'Dual Motor Performance'],
+    'Polestar Polestar 3': ['Standard', 'Long Range', 'Performance', 'Launch Edition'],
+    'Polestar Polestar 4': ['Standard', 'Performance', 'Launch Edition'],
+    'Polestar Polestar 5': ['Standard', 'Performance', 'Launch Edition'],
+    'Polestar Polestar 6': ['Roadster', 'Performance', 'Launch Edition'],
 
     'Pontiac G6': ['Base', 'GT', 'GTP', 'Convertible'],
     'Pontiac G8': ['Base', 'GT', 'GXP'],
