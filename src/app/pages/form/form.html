@@ -11,7 +11,7 @@
         <label for="make">Choose your car make</label>
         <select id="make" [(ngModel)]="make" name="make" (change)="onMakeChange()" required>
           <option value="">Select a make</option>
-          <option *ngFor="let make of makes" [value]="make">{{ make }}</option>
+          <option *ngFor="let make of vehicleDataService.makes" [value]="make">{{ make }}</option>
         </select>
         <div class="error" *ngIf="errors['make']">{{ errors['make'] }}</div>
       </div>
@@ -25,7 +25,7 @@
       </div>
       <div class="question">
         <label for="submodel">Choose your car submodel</label>
-        <select id="submodel" [(ngModel)]="submodel" name="submodel" required [disabled]="!model">
+        <select id="submodel" [(ngModel)]="submodel" name="submodel" (change)="onSubmodelChange()" required [disabled]="!model">
           <option value="">Select a submodel</option>
           <option *ngFor="let submodel of availableSubmodels" [value]="submodel">{{ submodel }}</option>
         </select>
@@ -33,9 +33,9 @@
       </div>
       <div class="question">
         <label for="year">Choose your car year</label>
-        <select id="year" [(ngModel)]="year" name="year" required>
+        <select id="year" [(ngModel)]="year" name="year" required [disabled]="!submodel">
           <option value="">Select a year</option>
-          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
         </select>
         <div class="error" *ngIf="errors['year']">{{ errors['year'] }}</div>
       </div>
