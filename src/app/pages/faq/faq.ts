@@ -27,7 +27,7 @@ export class Faq {
     },
     {
       question: 'How do you select contractors?',
-      answer: 'We partner only with experienced, trusted Siding renovation professionals who have proven track records, positive customer reviews, and meet our quality standards. All contractors undergo background checks.',
+      answer: 'We partner only with experienced, trusted Auto Insurance renovation professionals who have proven track records, positive customer reviews, and meet our quality standards. All contractors undergo background checks.',
       isOpen: false
     },
     {
@@ -36,8 +36,8 @@ export class Faq {
       isOpen: false
     },
     {
-      question: 'What types of Siding services do you cover?',
-      answer: 'We cover all major siding services including installation, repair, replacement, maintenance, and emergency repairs for various siding materials like vinyl, wood, fiber cement, and more.',
+      question: 'What types of Auto Insurance services do you cover?',
+      answer: 'We cover all major Auto Insurance services including installation, repair, replacement, maintenance, and emergency repairs for various Auto Insurance materials like vinyl, wood, fiber cement, and more.',
       isOpen: false
     },
 
@@ -53,7 +53,7 @@ export class Faq {
     },
     {
       question: 'What information do I need to provide?',
-      answer: 'Basic project details including Siding type, property type, project nature (install/repair/replace), timeline, and contact information. More details help contractors provide accurate quotes.',
+      answer: 'Basic project details such as your location, Auto Insurance type, size, and any specific requirements. More details help contractors provide accurate quotes.',
       isOpen: false
     }
   ];

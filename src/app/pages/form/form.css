@@ -289,8 +289,8 @@ select::after {
 }
 
 .checkbox-label input[type="checkbox"]:checked {
-  background: #b22222;
-  border-color: #b22222;
+  background: navy;
+  border-color: navy;
 }
 
 .checkbox-label input[type="checkbox"]:checked::after {
@@ -327,7 +327,7 @@ border: 1px solid rgba(255, 255, 255, 0.3);
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  color: rgb(99, 12, 12);
+  color: rgb(52, 52, 231);
   font-size: 24px;
   font-weight: bold;
   text-align: center;

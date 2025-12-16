@@ -13,7 +13,7 @@ import { VehicleDataService } from './services/vehicle-data.service';
 })
 export class Form implements OnInit {
   currentStep: number = 1;
-  totalSteps: number = 9;
+  totalSteps: number = 15;
   vehicles: any[] = [];
   currentVehicle: any = {
     make: '',
@@ -32,9 +32,24 @@ export class Form implements OnInit {
   license_status: string = '';
   first_name: string = '';
   last_name: string = '';
+  email: string = '';
+  phone: string = '';
+  state: string = '';
+  zip: string = '';
+  city: string = '';
+  street_address: string = '';
   date_of_birth: string = '';
+  maxDate: string = '';
   marital_status: string = '';
   education: string = '';
+  tickets_past_12_months: string = '';
+  num_tickets: string = '';
+  major_violations_past_12_months: string = '';
+  num_major_violations: string = '';
+  accidents_past_12_months: string = '';
+  num_accidents: string = '';
+  claims_past_12_months: string = '';
+  num_claims: string = '';
   logoUrl: string = 'assets/images/default.webp';
   formTitle: string = 'Get your auto insurance quote';
   agreement: boolean = true;
@@ -45,6 +60,7 @@ export class Form implements OnInit {
   transaction_id: string = '';
   sub_aff_id: string = '';
   isValidatingIP: boolean = false;
+  isValidatingZip: boolean = false;
   isUSCitizen: boolean = true;
   showThankYou: boolean = false;
   isSubmitting: boolean = false;
@@ -61,11 +77,128 @@ export class Form implements OnInit {
 
   errors: { [key: string]: string } = {};
 
+  areaCodesUS = [
+    // Alabama
+    205, 251, 256, 334, 659,
+    // Alaska
+    907,
+    // Arizona
+    480, 520, 602, 623, 928,
+    // Arkansas
+    479, 501, 870,
+    // California
+    209, 213, 279, 310, 323, 341, 408, 415, 424, 442, 510, 530, 559,
+    562, 619, 626, 650, 657, 661, 669, 707, 714, 747, 760, 805, 818,
+    820, 831, 858, 909, 916, 925, 949, 951, 628,
+    // Colorado
+    303, 719, 720, 970,
+    // Connecticut
+    203, 475, 860, 959,
+    // Delaware
+    302,
+    // District of Columbia
+    202,
+    // Florida
+    239, 305, 321, 352, 386, 407, 561, 689, 727, 754, 772, 786,
+    813, 850, 863, 904, 941, 954,
+    // Georgia
+    229, 404, 470, 478, 678, 706, 762, 770, 912,
+    // Hawaii
+    808,
+    // Idaho
+    208, 986,
+    // Illinois
+    217, 224, 309, 312, 331, 464, 618, 630, 708, 773, 815, 847, 872,
+    // Indiana
+    219, 260, 317, 463, 574, 765, 812, 930,
+    // Iowa
+    319, 515, 563, 641, 712,
+    // Kansas
+    316, 620, 785, 913,
+    // Kentucky
+    270, 364, 502, 606, 859,
+    // Louisiana
+    225, 318, 337, 504, 985,
+    // Maine
+    207,
+    // Maryland
+    240, 301, 410, 443, 667,
+    // Massachusetts
+    339, 351, 413, 508, 617, 774, 781, 857, 978,
+    // Michigan
+    231, 248, 269, 313, 517, 586, 616, 734, 810, 906, 947, 989,
+    // Minnesota
+    218, 320, 507, 612, 651, 763, 952,
+    // Mississippi
+    228, 601, 662, 769,
+    // Missouri
+    314, 417, 573, 636, 660, 816,
+    // Montana
+    406,
+    // Nebraska
+    308, 402, 531,
+    // Nevada
+    702, 725, 775,
+    // New Hampshire
+    603,
+    // New Jersey
+    201, 551, 609, 640, 732, 848, 856, 862, 908, 973,
+    // New Mexico
+    505, 575,
+    // New York
+    212, 315, 332, 347, 516, 518, 585, 607, 631, 646, 716,
+    718, 838, 845, 914, 917, 929, 934,
+    // North Carolina
+    252, 336, 704, 743, 828, 910, 919, 980, 984,
+    // North Dakota
+    701,
+    // Ohio
+    216, 220, 234, 330, 380, 419, 440, 513, 567, 614, 740, 937,
+    // Oklahoma
+    405, 539, 580, 918,
+    // Oregon
+    458, 503, 541, 971,
+    // Pennsylvania
+    215, 223, 267, 272, 412, 445, 484, 570, 610, 717, 724, 814, 878,
+    // Rhode Island
+    401,
+    // South Carolina
+    803, 839, 843, 854, 864,
+    // South Dakota
+    605,
+    // Tennessee
+    423, 615, 629, 731, 865, 901, 931,
+    // Texas
+    210, 214, 254, 281, 325, 346, 361, 409, 430, 432, 469, 512,
+    682, 713, 726, 737, 806, 817, 830, 832, 903, 915, 936, 940,
+    945, 956, 972, 979,
+    // Utah
+    385, 435, 801,
+    // Vermont
+    802,
+    // Virginia
+    276, 434, 540, 571, 703, 757, 804, 826, 948,
+    // Washington
+    206, 253, 360, 425, 509, 564,
+    // West Virginia
+    304, 681,
+    // Wisconsin
+    262, 414, 534, 608, 715, 920,
+    // Wyoming
+    307,
+    // Puerto Rico
+    787, 939,
+    // U.S. Virgin Islands
+    340
+  ];
+
   constructor(private http: HttpClient, private router: Router, private renderer: Renderer2, private el: ElementRef, public vehicleDataService: VehicleDataService) {}
 
   ngOnInit() {
     this.fetchIPAddress();
     this.parseUrlParams();
+    const today = new Date();
+    this.maxDate = new Date(today.getFullYear() - 15, today.getMonth(), today.getDate()).toISOString().split('T')[0];
     this.injectTrustedFormPing();
     // Start injecting TrustedForm and LeadID immediately on load
     this.injectTrustedForm();
@@ -135,7 +268,7 @@ export class Form implements OnInit {
     return years;
   }
 
-  nextStep() {
+  async nextStep() {
     this.errors = {};
 
     // Inject TrustedForm script if not present, like in handleChange
@@ -160,7 +293,7 @@ export class Form implements OnInit {
       }
     }, 500);
     if (this.currentStep === 8) {
-      if (this.validateCurrentStep()) {
+      if (await this.validateCurrentStep()) {
         this.isValidatingIP = true;
         this.http.get(`https://ipapi.co/${this.ipaddress}/json/`).subscribe({
           next: (data: any) => {
@@ -184,7 +317,40 @@ export class Form implements OnInit {
           }
         });
       }
-    } else if (this.validateCurrentStep()) {
+    } else if (this.currentStep === 13) {
+      if (await this.validateCurrentStep()) {
+        this.isValidatingZip = true;
+        this.http.get(`https://steermarketeer.com/api/a9f3b2c1e7d4?zip=${this.zip}`).subscribe({
+          next: (data: any) => {
+            if (data.state_name === 'Unknown') {
+              this.errors['zip'] = 'Invalid zip code.';
+              this.isValidatingZip = false;
+            } else if (data.zip_state !== this.state) {
+              this.errors['zip'] = 'Invalid zip code for selected state.';
+              this.isValidatingZip = false;
+            } else {
+              this.http.get(`https://api.zippopotam.us/us/${this.zip}`).subscribe({
+                next: (data2: any) => {
+                  this.city = data2.places[0]['place name'];
+                  this.isValidatingZip = false;
+                  if (this.currentStep < this.totalSteps) {
+                    this.currentStep++;
+                  }
+                },
+                error: () => {
+                  this.errors['zip'] = 'Unable to retrieve city.';
+                  this.isValidatingZip = false;
+                }
+              });
+            }
+          },
+          error: () => {
+            this.errors['zip'] = 'Unable to validate zip code.';
+            this.isValidatingZip = false;
+          }
+        });
+      }
+    } else if (await this.validateCurrentStep()) {
       if (this.currentStep === 4) {
         if (this.addAnotherVehicle === 'Yes') {
           this.vehicles.push({ ...this.currentVehicle });
@@ -223,7 +389,7 @@ export class Form implements OnInit {
     }
   }
 
-  validateCurrentStep(): boolean {
+  async validateCurrentStep(): Promise<boolean> {
     let valid = true;
     if (this.currentStep === 1) {
       if (!this.currentVehicle.make) {
@@ -257,17 +423,22 @@ export class Form implements OnInit {
         valid = false;
       }
     } else if (this.currentStep === 7) {
-      if (!this.first_name) {
-        this.errors['first_name'] = 'Please enter your first name.';
-        valid = false;
-      }
-      if (!this.last_name) {
-        this.errors['last_name'] = 'Please enter your last name.';
-        valid = false;
-      }
       if (!this.date_of_birth) {
         this.errors['date_of_birth'] = 'Please enter your date of birth.';
         valid = false;
+      } else {
+        const dob = new Date(this.date_of_birth);
+        if (isNaN(dob.getTime())) {
+          this.errors['date_of_birth'] = 'Please enter a valid date of birth.';
+          valid = false;
+        } else {
+          const today = new Date();
+          const age = today.getFullYear() - dob.getFullYear() - ((today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) ? 1 : 0);
+          if (age < 15) {
+            this.errors['date_of_birth'] = 'You must be at least 15 years old.';
+            valid = false;
+          }
+        }
       }
     } else if (this.currentStep === 8) {
       if (!this.marital_status) {
@@ -279,6 +450,79 @@ export class Form implements OnInit {
         valid = false;
       }
     } else if (this.currentStep === 9) {
+      if (!this.tickets_past_12_months) {
+        this.errors['tickets_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.tickets_past_12_months === 'Yes' && !this.num_tickets) {
+        this.errors['num_tickets'] = 'Please select the number of tickets.';
+        valid = false;
+      }
+      if (!this.major_violations_past_12_months) {
+        this.errors['major_violations_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.major_violations_past_12_months === 'Yes' && !this.num_major_violations) {
+        this.errors['num_major_violations'] = 'Please select the number of major violations.';
+        valid = false;
+      }
+    } else if (this.currentStep === 10) {
+      if (!this.accidents_past_12_months) {
+        this.errors['accidents_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.accidents_past_12_months === 'Yes' && !this.num_accidents) {
+        this.errors['num_accidents'] = 'Please select the number of accidents.';
+        valid = false;
+      }
+      if (!this.claims_past_12_months) {
+        this.errors['claims_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.claims_past_12_months === 'Yes' && !this.num_claims) {
+        this.errors['num_claims'] = 'Please select the number of claims.';
+        valid = false;
+      }
+    } else if (this.currentStep === 11) {
+      if (!this.first_name) {
+        this.errors['first_name'] = 'Please enter your first name.';
+        valid = false;
+      }
+      if (!this.last_name) {
+        this.errors['last_name'] = 'Please enter your last name.';
+        valid = false;
+      }
+    } else if (this.currentStep === 12) {
+      if (!this.email) {
+        this.errors['email'] = 'Please enter your email.';
+        valid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+        this.errors['email'] = 'Please enter a valid email address.';
+        valid = false;
+      } else {
+        // Check domain
+        const domain = this.email.split('@')[1];
+        try {
+          const res: any = await this.http.get(`https://8.8.8.8/resolve?name=${domain}`).toPromise();
+          if (res.Status === 3) {
+            this.errors['email'] = 'Invalid email domain.';
+            valid = false;
+          }
+        } catch (e) {
+          this.errors['email'] = 'Unable to validate email domain.';
+          valid = false;
+        }
+      }
+      if (!this.phone) {
+        this.errors['phone'] = 'Please enter your phone number.';
+        valid = false;
+      } else if (this.phone.length !== 10 || !/^\d{10}$/.test(this.phone)) {
+        this.errors['phone'] = 'Phone number must be 10 digits.';
+        valid = false;
+      } else {
+        const area = parseInt(this.phone.substring(0, 3));
+        if (!this.areaCodesUS.includes(area)) {
+          this.errors['phone'] = 'Invalid area code.';
+          valid = false;
+        }
+      }
+    } else if (this.currentStep === 15) {
       if (!this.agreement) {
         this.errors['agreement'] = 'You must agree to the terms and conditions.';
         valid = false;
@@ -290,7 +534,7 @@ export class Form implements OnInit {
 
   async submit() {
     this.errors = {};
-    if (this.validateCurrentStep()) {
+    if (await this.validateCurrentStep()) {
       this.isSubmitting = true;
       
       // Read values from DOM
@@ -303,9 +547,19 @@ export class Form implements OnInit {
         license_status: this.license_status,
         first_name: this.first_name,
         last_name: this.last_name,
+        email: this.email,
+        phone: this.phone,
         date_of_birth: this.date_of_birth,
         marital_status: this.marital_status,
         education: this.education,
+        tickets_past_12_months: this.tickets_past_12_months,
+        num_tickets: this.num_tickets,
+        major_violations_past_12_months: this.major_violations_past_12_months,
+        num_major_violations: this.num_major_violations,
+        accidents_past_12_months: this.accidents_past_12_months,
+        num_accidents: this.num_accidents,
+        claims_past_12_months: this.claims_past_12_months,
+        num_claims: this.num_claims,
         agreement: this.agreement,
         ipaddress: this.ipaddress,
         universalLeadid: this.universalLeadid,
