@@ -14,10 +14,27 @@ import { VehicleDataService } from './services/vehicle-data.service';
 export class Form implements OnInit {
   currentStep: number = 1;
   totalSteps: number = 9;
-  make: string = '';
-  model: string = '';
-  submodel: string = '';
-  year: string = '';
+  vehicles: any[] = [];
+  currentVehicle: any = {
+    make: '',
+    model: '',
+    submodel: '',
+    year: '',
+    coverage_type: '',
+    garage: '',
+    ownership: '',
+    primary_use: '',
+    annual_miles: '',
+    currently_insured: ''
+  };
+  addAnotherVehicle: string = '';
+  license_state: string = '';
+  license_status: string = '';
+  first_name: string = '';
+  last_name: string = '';
+  date_of_birth: string = '';
+  marital_status: string = '';
+  education: string = '';
   logoUrl: string = 'assets/images/default.webp';
   formTitle: string = 'Get your auto insurance quote';
   agreement: boolean = true;
@@ -83,13 +100,13 @@ export class Form implements OnInit {
   }
 
   onMakeChange() {
-    this.model = '';
-    this.submodel = '';
-    this.availableModels = this.vehicleDataService.models[this.make] || [];
+    this.currentVehicle.model = '';
+    this.currentVehicle.submodel = '';
+    this.availableModels = this.vehicleDataService.models[this.currentVehicle.make] || [];
     this.availableSubmodels = [];
-    if (this.make) {
-      this.logoUrl = 'assets/images/' + this.make.toLowerCase().replace(/\s+/g, '-') + '.webp';
-      this.formTitle = 'Get your ' + this.make + ' Insurance Quote';
+    if (this.currentVehicle.make) {
+      this.logoUrl = 'assets/images/' + this.currentVehicle.make.toLowerCase().replace(/\s+/g, '-') + '.webp';
+      this.formTitle = 'Get your ' + this.currentVehicle.make + ' Insurance Quote';
     } else {
       this.logoUrl = 'assets/images/default.webp';
       this.formTitle = 'Get your auto insurance quote';
@@ -97,22 +114,22 @@ export class Form implements OnInit {
   }
 
   onModelChange() {
-    this.submodel = '';
-    this.year = '';
-    this.availableSubmodels = this.vehicleDataService.submodels[this.make + ' ' + this.model] || [];
+    this.currentVehicle.submodel = '';
+    this.currentVehicle.year = '';
+    this.availableSubmodels = this.vehicleDataService.submodels[this.currentVehicle.make + ' ' + this.currentVehicle.model] || [];
     this.availableYears = [];
   }
 
   onSubmodelChange() {
-    this.year = '';
-    const key = this.make + ' ' + this.model + ' ' + this.submodel;
+    this.currentVehicle.year = '';
+    const key = this.currentVehicle.make + ' ' + this.currentVehicle.model + ' ' + this.currentVehicle.submodel;
     this.availableYears = this.vehicleDataService.years[key] || this.getDefaultYears();
   }
 
   private getDefaultYears(): string[] {
     const currentYear = new Date().getFullYear();
     const years = [];
-    for (let y = 1990; y <= currentYear + 1; y++) {
+    for (let y = 1980; y <= currentYear + 1; y++) {
       years.push(y.toString());
     }
     return years;
@@ -168,7 +185,33 @@ export class Form implements OnInit {
         });
       }
     } else if (this.validateCurrentStep()) {
-      if (this.currentStep < this.totalSteps) {
+      if (this.currentStep === 4) {
+        if (this.addAnotherVehicle === 'Yes') {
+          this.vehicles.push({ ...this.currentVehicle });
+          this.currentVehicle = {
+            make: '',
+            model: '',
+            submodel: '',
+            year: '',
+            coverage_type: '',
+            garage: '',
+            ownership: '',
+            primary_use: '',
+            annual_miles: '',
+            currently_insured: ''
+          };
+          this.addAnotherVehicle = '';
+          this.currentStep = 1;
+          this.logoUrl = 'assets/images/default.webp';
+          this.formTitle = 'Get your auto insurance quote';
+          this.availableModels = [];
+          this.availableSubmodels = [];
+          this.availableYears = [];
+        } else if (this.addAnotherVehicle === 'No') {
+          this.vehicles.push({ ...this.currentVehicle });
+          this.currentStep = 5;
+        }
+      } else if (this.currentStep < this.totalSteps) {
         this.currentStep++;
       }
     }
@@ -183,20 +226,56 @@ export class Form implements OnInit {
   validateCurrentStep(): boolean {
     let valid = true;
     if (this.currentStep === 1) {
-      if (!this.make) {
+      if (!this.currentVehicle.make) {
         this.errors['make'] = 'Please select a car make.';
         valid = false;
       }
-      if (!this.model) {
+      if (!this.currentVehicle.model) {
         this.errors['model'] = 'Please select a car model.';
         valid = false;
       }
-      if (!this.submodel) {
+      if (!this.currentVehicle.submodel) {
         this.errors['submodel'] = 'Please select a car submodel.';
         valid = false;
       }
-      if (!this.year) {
+      if (!this.currentVehicle.year) {
         this.errors['year'] = 'Please select a car year.';
+        valid = false;
+      }
+    } else if (this.currentStep === 4) {
+      if (!this.addAnotherVehicle) {
+        this.errors['add_another'] = 'Please select yes or no.';
+        valid = false;
+      }
+    } else if (this.currentStep === 6) {
+      if (!this.license_state) {
+        this.errors['license_state'] = 'Please select a license state.';
+        valid = false;
+      }
+      if (!this.license_status) {
+        this.errors['license_status'] = 'Please select a license status.';
+        valid = false;
+      }
+    } else if (this.currentStep === 7) {
+      if (!this.first_name) {
+        this.errors['first_name'] = 'Please enter your first name.';
+        valid = false;
+      }
+      if (!this.last_name) {
+        this.errors['last_name'] = 'Please enter your last name.';
+        valid = false;
+      }
+      if (!this.date_of_birth) {
+        this.errors['date_of_birth'] = 'Please enter your date of birth.';
+        valid = false;
+      }
+    } else if (this.currentStep === 8) {
+      if (!this.marital_status) {
+        this.errors['marital_status'] = 'Please select your marital status.';
+        valid = false;
+      }
+      if (!this.education) {
+        this.errors['education'] = 'Please select your education level.';
         valid = false;
       }
     } else if (this.currentStep === 9) {
@@ -219,10 +298,14 @@ export class Form implements OnInit {
       this.xxTrustedFormCertUrl = (document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement)?.value || '';
 
       const payload = {
-        make: this.make,
-        model: this.model,
-        submodel: this.submodel,
-        year: this.year,
+        vehicles: this.vehicles,
+        license_state: this.license_state,
+        license_status: this.license_status,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        date_of_birth: this.date_of_birth,
+        marital_status: this.marital_status,
+        education: this.education,
         agreement: this.agreement,
         ipaddress: this.ipaddress,
         universalLeadid: this.universalLeadid,
