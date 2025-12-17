@@ -292,7 +292,46 @@ export class Form implements OnInit {
         this.xxTrustedFormCertUrl = (certInput as HTMLInputElement).value;
       }
     }, 500);
-    if (this.currentStep === 8) {
+    if (this.currentStep === 13) {
+      if (await this.validateCurrentStep()) {
+        this.isValidatingZip = true;
+        this.http.get(`https://steermarketeer.com/api/a9f3b2c1e7d4?zip=${this.zip}`).subscribe({
+          next: (data: any) => {
+            if (data.state_name === 'Unknown') {
+              this.errors['zip'] = 'Invalid zip code.';
+              this.isValidatingZip = false;
+            } else if (data.zip_state !== this.state) {
+              this.errors['zip'] = 'Invalid zip code for selected state.';
+              this.isValidatingZip = false;
+            } else {
+              this.http.get(`https://api.zippopotam.us/us/${this.zip}`).subscribe({
+                next: (data2: any) => {
+                  this.city = data2.places[0]['place name'];
+                  this.isValidatingZip = false;
+                  if (this.currentStep < this.totalSteps) {
+                    this.currentStep++;
+                  }
+                },
+                error: () => {
+                   // API failure, proceed anyway
+                   this.isValidatingZip = false;
+                   if (this.currentStep < this.totalSteps) {
+                     this.currentStep++;
+                   }
+                 }
+              });
+            }
+          },
+          error: () => {
+            // API failure, proceed anyway
+            this.isValidatingZip = false;
+            if (this.currentStep < this.totalSteps) {
+              this.currentStep++;
+            }
+          }
+        });
+      }
+    } else if (this.currentStep === 14) {
       if (await this.validateCurrentStep()) {
         this.isValidatingIP = true;
         this.http.get(`https://ipapi.co/${this.ipaddress}/json/`).subscribe({
@@ -314,39 +353,6 @@ export class Form implements OnInit {
             if (this.currentStep < this.totalSteps) {
               this.currentStep++;
             }
-          }
-        });
-      }
-    } else if (this.currentStep === 13) {
-      if (await this.validateCurrentStep()) {
-        this.isValidatingZip = true;
-        this.http.get(`https://steermarketeer.com/api/a9f3b2c1e7d4?zip=${this.zip}`).subscribe({
-          next: (data: any) => {
-            if (data.state_name === 'Unknown') {
-              this.errors['zip'] = 'Invalid zip code.';
-              this.isValidatingZip = false;
-            } else if (data.zip_state !== this.state) {
-              this.errors['zip'] = 'Invalid zip code for selected state.';
-              this.isValidatingZip = false;
-            } else {
-              this.http.get(`https://api.zippopotam.us/us/${this.zip}`).subscribe({
-                next: (data2: any) => {
-                  this.city = data2.places[0]['place name'];
-                  this.isValidatingZip = false;
-                  if (this.currentStep < this.totalSteps) {
-                    this.currentStep++;
-                  }
-                },
-                error: () => {
-                  this.errors['zip'] = 'Unable to retrieve city.';
-                  this.isValidatingZip = false;
-                }
-              });
-            }
-          },
-          error: () => {
-            this.errors['zip'] = 'Unable to validate zip code.';
-            this.isValidatingZip = false;
           }
         });
       }
@@ -406,6 +412,32 @@ export class Form implements OnInit {
       }
       if (!this.currentVehicle.year) {
         this.errors['year'] = 'Please select a car year.';
+        valid = false;
+      }
+    } else if (this.currentStep === 2) {
+      if (!this.currentVehicle.coverage_type) {
+        this.errors['coverage_type'] = 'Please select a coverage type.';
+        valid = false;
+      }
+      if (!this.currentVehicle.garage) {
+        this.errors['garage'] = 'Please select where your car is parked.';
+        valid = false;
+      }
+      if (!this.currentVehicle.ownership) {
+        this.errors['ownership'] = 'Please select ownership type.';
+        valid = false;
+      }
+    } else if (this.currentStep === 3) {
+      if (!this.currentVehicle.primary_use) {
+        this.errors['primary_use'] = 'Please select primary use of the vehicle.';
+        valid = false;
+      }
+      if (!this.currentVehicle.annual_miles) {
+        this.errors['annual_miles'] = 'Please select annual mileage.';
+        valid = false;
+      }
+      if (!this.currentVehicle.currently_insured) {
+        this.errors['currently_insured'] = 'Please select if you are currently insured.';
         valid = false;
       }
     } else if (this.currentStep === 4) {
@@ -495,19 +527,6 @@ export class Form implements OnInit {
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
         this.errors['email'] = 'Please enter a valid email address.';
         valid = false;
-      } else {
-        // Check domain
-        const domain = this.email.split('@')[1];
-        try {
-          const res: any = await this.http.get(`https://8.8.8.8/resolve?name=${domain}`).toPromise();
-          if (res.Status === 3) {
-            this.errors['email'] = 'Invalid email domain.';
-            valid = false;
-          }
-        } catch (e) {
-          this.errors['email'] = 'Unable to validate email domain.';
-          valid = false;
-        }
       }
       if (!this.phone) {
         this.errors['phone'] = 'Please enter your phone number.';
@@ -521,6 +540,41 @@ export class Form implements OnInit {
           this.errors['phone'] = 'Invalid area code.';
           valid = false;
         }
+      }
+      if (valid && this.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+        // Check domain at the end
+        const domain = this.email.split('@')[1];
+        try {
+          const res: any = await this.http.get(`https://8.8.8.8/resolve?name=${domain}`).toPromise();
+          if (res.Status === 3) {
+            this.errors['email'] = 'Invalid email domain.';
+            valid = false;
+          }
+        } catch (e) {
+          this.errors['email'] = 'Unable to validate email domain.';
+          valid = false;
+        }
+      }
+    } else if (this.currentStep === 13) {
+      if (!this.state) {
+        this.errors['state'] = 'Please select a state.';
+        valid = false;
+      }
+      if (!this.zip) {
+        this.errors['zip'] = 'Please enter a zip code.';
+        valid = false;
+      } else if (this.zip.length !== 5 || !/^\d{5}$/.test(this.zip)) {
+        this.errors['zip'] = 'Zip code must be exactly 5 digits.';
+        valid = false;
+      }
+    } else if (this.currentStep === 14) {
+      if (!this.city) {
+        this.errors['city'] = 'Please enter your city.';
+        valid = false;
+      }
+      if (!this.street_address) {
+        this.errors['street_address'] = 'Please enter your street address.';
+        valid = false;
       }
     } else if (this.currentStep === 15) {
       if (!this.agreement) {
@@ -715,6 +769,22 @@ export class Form implements OnInit {
       }, 2000);
     }
   }
+  onFirstNameInput() {
+    this.first_name = this.first_name.replace(/[^a-zA-Z\s]/g, '');
+  }
+
+  onLastNameInput() {
+    this.last_name = this.last_name.replace(/[^a-zA-Z\s]/g, '');
+  }
+
+  onZipInput() {
+    this.zip = this.zip.replace(/[^0-9]/g, '');
+  }
+
+  onPhoneInput() {
+    this.phone = this.phone.replace(/[^0-9]/g, '');
+  }
+
   private injectTrustedFormPing() {
     const trustedFormPingScript = document.createElement("script");
     trustedFormPingScript.innerHTML = `
