@@ -333,6 +333,61 @@ export class Form implements OnInit {
       }
     } else if (this.currentStep === 14) {
       if (await this.validateCurrentStep()) {
+        const maritalStatusMap = { 'Single': 1, 'Married': 2, 'Divorced': 3, 'Separated': 4, 'Widowed': 5, 'Domestic Partner': 6 };
+        const educationMap = { 'High School Diploma': 1, 'Associate Degree': 2, 'BS': 3, 'MS': 4, 'Some College': 5, 'Some or no High School': 6, 'Less than High School': 7 };
+        const licenseStatusMap = { 'Active': 1, 'International': 2, 'Learner': 3, 'Probation': 4, 'Restricted': 5, 'Suspended': 6, 'Temporary': 7 };
+        const yesNoMap = { 'Yes': 1, 'No': 2 };
+        const coverageTypeMap = { 'Preferred': 1, 'Premium': 2, 'Standard': 3, 'State Minimum': 4 };
+        const garageMap = { 'Car Port': 1, 'Full Garage': 2, 'No Cover': 3, 'On Street': 4 };
+        const ownershipMap = { 'Own': 1, 'Lease': 2, 'Finance': 3 };
+        const annualMilesMap = { 'Under 5,000': 1, '5,001 - 10,000': 2, '10,001 - 15,000': 3, '15,000+': 4 };
+        const primaryUseMap = { 'Business': 1, 'Commute School': 2, 'Commute Varies': 3, 'Commute Work': 4, 'Pleasure': 5 };
+        const logData: any = {
+          license_state: this.license_state,
+          license_status: licenseStatusMap[this.license_status as keyof typeof licenseStatusMap] || this.license_status,
+          first_name: this.first_name,
+          last_name: this.last_name,
+          email: this.email,
+          phone: this.phone,
+          state: this.state,
+          zip: this.zip,
+          city: this.city,
+          street_address: this.street_address,
+          date_of_birth: this.date_of_birth,
+          marital_status: maritalStatusMap[this.marital_status as keyof typeof maritalStatusMap] || this.marital_status,
+          education: educationMap[this.education as keyof typeof educationMap] || this.education,
+          tickets_past_12_months: yesNoMap[this.tickets_past_12_months as keyof typeof yesNoMap] || this.tickets_past_12_months,
+          num_tickets: this.tickets_past_12_months === 'No' ? 0 : this.num_tickets,
+          major_violations_past_12_months: yesNoMap[this.major_violations_past_12_months as keyof typeof yesNoMap] || this.major_violations_past_12_months,
+          num_major_violations: this.major_violations_past_12_months === 'No' ? 0 : this.num_major_violations,
+          accidents_past_12_months: yesNoMap[this.accidents_past_12_months as keyof typeof yesNoMap] || this.accidents_past_12_months,
+          num_accidents: this.accidents_past_12_months === 'No' ? 0 : this.num_accidents,
+          claims_past_12_months: yesNoMap[this.claims_past_12_months as keyof typeof yesNoMap] || this.claims_past_12_months,
+          num_claims: this.claims_past_12_months === 'No' ? 0 : this.num_claims,
+          agreement: this.agreement ? 1 : 2,
+          ipaddress: this.ipaddress,
+          universalLeadid: this.universalLeadid,
+          xxTrustedFormCertUrl: this.xxTrustedFormCertUrl,
+          aff_id: this.aff_id,
+          transaction_id: this.transaction_id,
+          sub_aff_id: this.sub_aff_id,
+          url: window.location.href,
+          browser: navigator.userAgent
+        };
+        this.vehicles.forEach((vehicle, index) => {
+          const suffix = index + 1;
+          logData[`make${suffix}`] = vehicle.make;
+          logData[`model${suffix}`] = vehicle.model;
+          logData[`submodel${suffix}`] = vehicle.submodel;
+          logData[`year${suffix}`] = vehicle.year;
+          logData[`coverage_type${suffix}`] = coverageTypeMap[vehicle.coverage_type as keyof typeof coverageTypeMap] || vehicle.coverage_type;
+          logData[`garage${suffix}`] = garageMap[vehicle.garage as keyof typeof garageMap] || vehicle.garage;
+          logData[`ownership${suffix}`] = ownershipMap[vehicle.ownership as keyof typeof ownershipMap] || vehicle.ownership;
+          logData[`primary_use${suffix}`] = primaryUseMap[vehicle.primary_use as keyof typeof primaryUseMap] || vehicle.primary_use;
+          logData[`annual_miles${suffix}`] = annualMilesMap[vehicle.annual_miles as keyof typeof annualMilesMap] || vehicle.annual_miles;
+          logData[`currently_insured${suffix}`] = yesNoMap[vehicle.currently_insured as keyof typeof yesNoMap] || vehicle.currently_insured;
+        });
+        console.log('Form data at step 14:', logData);
         this.isValidatingIP = true;
         this.http.get(`https://ipapi.co/${this.ipaddress}/json/`).subscribe({
           next: (data: any) => {
@@ -590,13 +645,22 @@ export class Form implements OnInit {
     this.errors = {};
     if (await this.validateCurrentStep()) {
       this.isSubmitting = true;
-      
+
       // Read values from DOM
       this.universalLeadid = (document.getElementById('leadid_token') as HTMLInputElement)?.value || '';
       this.xxTrustedFormCertUrl = (document.querySelector('input[name="xxTrustedFormCertUrl"]') as HTMLInputElement)?.value || '';
 
-      const payload = {
-        vehicles: this.vehicles,
+      const coverageTypeMap = { 'Preferred': 1, 'Premium': 2, 'Standard': 3, 'State Minimum': 4 };
+      const garageMap = { 'Car Port': 1, 'Full Garage': 2, 'No Cover': 3, 'On Street': 4 };
+      const ownershipMap = { 'Own': 1, 'Lease': 2, 'Finance': 3 };
+      const annualMilesMap = { 'Under 5,000': 1, '5,001 - 10,000': 2, '10,001 - 15,000': 3, '15,000+': 4 };
+      const primaryUseMap = { 'Business': 1, 'Commute School': 2, 'Commute Varies': 3, 'Commute Work': 4, 'Pleasure': 5 };
+      const maritalStatusMap = { 'Single': 1, 'Married': 2, 'Divorced': 3, 'Separated': 4, 'Widowed': 5, 'Domestic Partner': 6 };
+      const educationMap = { 'High School Diploma': 1, 'Associate Degree': 2, 'BS': 3, 'MS': 4, 'Some College': 5, 'Some or no High School': 6, 'Less than High School': 7 };
+      const licenseStatusMap = { 'Active': 1, 'International': 2, 'Learner': 3, 'Probation': 4, 'Restricted': 5, 'Suspended': 6, 'Temporary': 7 };
+      const yesNoMap = { 'Yes': 1, 'No': 2 };
+
+      const payload: any = {
         license_state: this.license_state,
         license_status: this.license_status,
         first_name: this.first_name,
@@ -604,17 +668,17 @@ export class Form implements OnInit {
         email: this.email,
         phone: this.phone,
         date_of_birth: this.date_of_birth,
-        marital_status: this.marital_status,
-        education: this.education,
-        tickets_past_12_months: this.tickets_past_12_months,
-        num_tickets: this.num_tickets,
-        major_violations_past_12_months: this.major_violations_past_12_months,
-        num_major_violations: this.num_major_violations,
-        accidents_past_12_months: this.accidents_past_12_months,
-        num_accidents: this.num_accidents,
-        claims_past_12_months: this.claims_past_12_months,
-        num_claims: this.num_claims,
-        agreement: this.agreement,
+        marital_status: maritalStatusMap[this.marital_status as keyof typeof maritalStatusMap] || this.marital_status,
+        education: educationMap[this.education as keyof typeof educationMap] || this.education,
+        tickets_past_12_months: yesNoMap[this.tickets_past_12_months as keyof typeof yesNoMap] || this.tickets_past_12_months,
+        num_tickets: this.tickets_past_12_months === 'No' ? 0 : this.num_tickets,
+        major_violations_past_12_months: yesNoMap[this.major_violations_past_12_months as keyof typeof yesNoMap] || this.major_violations_past_12_months,
+        num_major_violations: this.major_violations_past_12_months === 'No' ? 0 : this.num_major_violations,
+        accidents_past_12_months: yesNoMap[this.accidents_past_12_months as keyof typeof yesNoMap] || this.accidents_past_12_months,
+        num_accidents: this.accidents_past_12_months === 'No' ? 0 : this.num_accidents,
+        claims_past_12_months: yesNoMap[this.claims_past_12_months as keyof typeof yesNoMap] || this.claims_past_12_months,
+        num_claims: this.claims_past_12_months === 'No' ? 0 : this.num_claims,
+        agreement: this.agreement ? 1 : 2,
         ipaddress: this.ipaddress,
         universalLeadid: this.universalLeadid,
         xxTrustedFormCertUrl: this.xxTrustedFormCertUrl,
@@ -624,8 +688,22 @@ export class Form implements OnInit {
         url: window.location.href,
         browser: navigator.userAgent
       };
+
+      this.vehicles.forEach((vehicle, index) => {
+        const suffix = index + 1;
+        payload[`make${suffix}`] = vehicle.make;
+        payload[`model${suffix}`] = vehicle.model;
+        payload[`submodel${suffix}`] = vehicle.submodel;
+        payload[`year${suffix}`] = vehicle.year;
+        payload[`coverage_type${suffix}`] = coverageTypeMap[vehicle.coverage_type as keyof typeof coverageTypeMap] || vehicle.coverage_type;
+        payload[`garage${suffix}`] = garageMap[vehicle.garage as keyof typeof garageMap] || vehicle.garage;
+        payload[`ownership${suffix}`] = ownershipMap[vehicle.ownership as keyof typeof ownershipMap] || vehicle.ownership;
+        payload[`primary_use${suffix}`] = primaryUseMap[vehicle.primary_use as keyof typeof primaryUseMap] || vehicle.primary_use;
+        payload[`annual_miles${suffix}`] = annualMilesMap[vehicle.annual_miles as keyof typeof annualMilesMap] || vehicle.annual_miles;
+        payload[`currently_insured${suffix}`] = yesNoMap[vehicle.currently_insured as keyof typeof yesNoMap] || vehicle.currently_insured;
+      });
       
-      this.http.post('https://get-roofing.com/api/ping-proxy.php', payload).subscribe({
+      this.http.post('https://autoinsurancequote.com/api/ping-proxy.php', payload).subscribe({
         next: (response) => {
           this.isSubmitting = false;
           this.showThankYou = true;
