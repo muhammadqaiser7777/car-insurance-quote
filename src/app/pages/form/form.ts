@@ -202,8 +202,8 @@ export class Form implements OnInit {
     this.injectTrustedFormPing();
     // Start injecting TrustedForm and LeadID immediately on load
     this.injectTrustedForm();
-    // Start trying LeadiD injection after 10s; then retry every 2s until success or submit
-    setTimeout(() => this.startLeadiDInjectionLoop(), 10000);
+    // Start trying LeadiD injection immediately; then retry every 2s until success or submit
+    this.startLeadiDInjectionLoop();
   }
 
 
@@ -665,6 +665,9 @@ export class Form implements OnInit {
         firstName: this.first_name,
         lastName: this.last_name,
         address: this.street_address,
+        city: this.city,
+        state: this.state,
+        zip: this.zip,
         email: this.email,
         phone: this.phone,
         date_of_birth: this.date_of_birth,
