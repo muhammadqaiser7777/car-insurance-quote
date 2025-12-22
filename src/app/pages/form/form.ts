@@ -51,7 +51,7 @@ export class Form implements OnInit {
   claims_past_12_months: string = '';
   num_claims: string = '';
   logoUrl: string = 'assets/images/default.webp';
-  formTitle: string = 'Get your auto insurance quote';
+  formTitle: string = 'Get your Insurance on Wheel';
   agreement: boolean = true;
   ipaddress: string = '';
   universalLeadid: string = '';
@@ -242,7 +242,7 @@ export class Form implements OnInit {
       this.formTitle = 'Get your ' + this.currentVehicle.make + ' Insurance Quote';
     } else {
       this.logoUrl = 'assets/images/default.webp';
-      this.formTitle = 'Get your auto insurance quote';
+      this.formTitle = 'Get your Insurance on Wheel';
     }
   }
 
@@ -429,7 +429,7 @@ export class Form implements OnInit {
           this.addAnotherVehicle = '';
           this.currentStep = 1;
           this.logoUrl = 'assets/images/default.webp';
-          this.formTitle = 'Get your auto insurance quote';
+          this.formTitle = 'Get your Insurance on Wheel';
           this.availableModels = [];
           this.availableSubmodels = [];
           this.availableYears = [];

@@ -16,8 +16,8 @@ interface FaqItem {
 export class Faq {
   faqs: FaqItem[] = [
     {
-      question: 'How does the Auto Insurance quote process work?',
-      answer: 'Fill out our detailed form with your auto insurance details and requirements. We securely process your data and connect you with trusted insurance providers who will provide personalized quotes.',
+      question: 'How does the Insurance on Wheel process work?',
+      answer: 'Fill out our detailed form with your Insurance on Wheel details and requirements. We securely process your data and connect you with trusted insurance providers who will provide personalized quotes.',
       isOpen: false
     },
     {
@@ -27,7 +27,7 @@ export class Faq {
     },
     {
       question: 'How do you select insurance providers?',
-      answer: 'We partner only with experienced, licensed auto insurance companies who have proven track records, positive customer reviews, and meet our quality standards. All providers are verified and regulated.',
+      answer: 'We partner only with experienced, licensed Insurance on Wheel companies who have proven track records, positive customer reviews, and meet our quality standards. All providers are verified and regulated.',
       isOpen: false
     },
     {
@@ -36,8 +36,8 @@ export class Faq {
       isOpen: false
     },
     {
-      question: 'What types of auto insurance coverage do you offer quotes for?',
-      answer: 'We provide quotes for all major auto insurance coverage types including liability, collision, comprehensive, personal injury protection, and uninsured/underinsured motorist coverage.',
+      question: 'What types of Insurance on Wheel coverage do you offer quotes for?',
+      answer: 'We provide quotes for all major Insurance on Wheel coverage types including liability, collision, comprehensive, personal injury protection, and uninsured/underinsured motorist coverage.',
       isOpen: false
     },
 
