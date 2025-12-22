@@ -661,7 +661,7 @@ export class Form implements OnInit {
 
       const payload: any = {
         license_state: this.license_state,
-        license_status: this.license_status,
+        license_status: licenseStatusMap[this.license_status as keyof typeof licenseStatusMap] || this.license_status,
         firstName: this.first_name,
         lastName: this.last_name,
         address: this.street_address,
