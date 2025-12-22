@@ -387,7 +387,6 @@ export class Form implements OnInit {
           logData[`annual_miles${suffix}`] = annualMilesMap[vehicle.annual_miles as keyof typeof annualMilesMap] || vehicle.annual_miles;
           logData[`currently_insured${suffix}`] = yesNoMap[vehicle.currently_insured as keyof typeof yesNoMap] || vehicle.currently_insured;
         });
-        console.log('Form data at step 14:', logData);
         this.isValidatingIP = true;
         this.http.get(`https://ipapi.co/${this.ipaddress}/json/`).subscribe({
           next: (data: any) => {
@@ -663,8 +662,9 @@ export class Form implements OnInit {
       const payload: any = {
         license_state: this.license_state,
         license_status: this.license_status,
-        first_name: this.first_name,
-        last_name: this.last_name,
+        firstName: this.first_name,
+        lastName: this.last_name,
+        address: this.street_address,
         email: this.email,
         phone: this.phone,
         date_of_birth: this.date_of_birth,
@@ -703,7 +703,7 @@ export class Form implements OnInit {
         payload[`currently_insured${suffix}`] = yesNoMap[vehicle.currently_insured as keyof typeof yesNoMap] || vehicle.currently_insured;
       });
       
-      this.http.post('https://autoinsurancequote.com/api/ping-proxy.php', payload).subscribe({
+      this.http.post('https://quickcashpoint.com/api/ping-proxy.php', payload).subscribe({
         next: (response) => {
           this.isSubmitting = false;
           this.showThankYou = true;
@@ -770,7 +770,6 @@ export class Form implements OnInit {
 
       this.leadIdInjected = true;
     } catch (e) {
-      console.error('Failed to inject LeadiD:', e);
       // mark as not injected so retry loop can try again
       this.leadIdInjected = false;
     }
@@ -839,7 +838,6 @@ export class Form implements OnInit {
       };
       this.trustedFormPollTimer = setTimeout(poll, 500);
     } catch (e) {
-      console.error('Failed to inject TrustedForm:', e);
       // Retry injection after 2 seconds on error
       setTimeout(() => {
         this.trustedFormInjected = false;
