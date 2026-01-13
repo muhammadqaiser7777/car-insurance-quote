@@ -421,7 +421,7 @@ export class MarketingPartners {
 "Aloe Care Health Inc",
 "Alpenglow Solar",
 "Alpha Marketing Group",
-"Alpine Digital Group",
+"Alpine Digital Group, Inc",
 "Alpine Solar",
 "Al's Electric & Plumbing",
 "Al's Electrical Services",
