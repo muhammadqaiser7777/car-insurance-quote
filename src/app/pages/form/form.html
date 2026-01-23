@@ -39,6 +39,11 @@
         </select>
         <div class="error" *ngIf="errors['year']">{{ errors['year'] }}</div>
       </div>
+      <div class="question">
+        <label for="vin">VIN</label>
+        <input type="text" id="vin" [(ngModel)]="currentVehicle.vin" name="vin" required maxlength="17" pattern="[0-9A-HJ-NPR-Z]{17}" (input)="onVinInput()">
+        <div class="error" *ngIf="errors['vin']">{{ errors['vin'] }}</div>
+      </div>
     </div>
     <div class="questions" *ngIf="currentStep === 2">
       <div class="question">
@@ -98,6 +103,8 @@
         </select>
         <div class="error" *ngIf="errors['annual_miles']">{{ errors['annual_miles'] }}</div>
       </div>
+    </div>
+    <div class="questions" *ngIf="currentStep === 4">
       <div class="question">
         <label for="currently_insured">Are you currently insured?</label>
         <select id="currently_insured" [(ngModel)]="currentVehicle.currently_insured" name="currently_insured" required>
@@ -107,19 +114,40 @@
         </select>
         <div class="error" *ngIf="errors['currently_insured']">{{ errors['currently_insured'] }}</div>
       </div>
+      <div class="question" *ngIf="currentVehicle.currently_insured === 'Yes'">
+        <label for="current_insurer">Current Insurer</label>
+        <select id="current_insurer" [(ngModel)]="currentVehicle.current_insurer" name="current_insurer" required>
+          <option value="">Select insurer</option>
+          <option *ngFor="let insurer of insurers; let i = index" [value]="i">{{ insurer }}</option>
+        </select>
+        <div class="error" *ngIf="errors['current_insurer']">{{ errors['current_insurer'] }}</div>
+      </div>
+      <div class="question" *ngIf="currentVehicle.currently_insured === 'Yes'">
+        <label for="current_expiry">Current Insurance Expiry Date</label>
+        <input type="date" id="current_expiry" [(ngModel)]="currentVehicle.current_expiry" name="current_expiry" required [min]="minDate">
+        <div class="error" *ngIf="errors['current_expiry']">{{ errors['current_expiry'] }}</div>
+      </div>
+      <div class="question" *ngIf="currentVehicle.currently_insured === 'Yes'">
+        <label for="length_insured">How long have you been insured?</label>
+        <select id="length_insured" [(ngModel)]="currentVehicle.length_insured" name="length_insured" required>
+          <option value="">Select</option>
+          <option *ngFor="let option of lengthInsuredOptions; let i = index" [value]="i">{{ option }}</option>
+        </select>
+        <div class="error" *ngIf="errors['length_insured']">{{ errors['length_insured'] }}</div>
+      </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 4">
+    <div class="questions" *ngIf="currentStep === 5">
       <div class="question">
-        <label for="add_another">Add another vehicle?</label>
+        <label for="add_another">Add another vehicle? (Max 5 vehicles)</label>
         <select id="add_another" [(ngModel)]="addAnotherVehicle" name="add_another" required>
           <option value="">Select</option>
-          <option value="Yes">Yes</option>
+          <option value="Yes" *ngIf="vehicles.length < 5">Yes</option>
           <option value="No">No</option>
         </select>
         <div class="error" *ngIf="errors['add_another']">{{ errors['add_another'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 6">
+    <div class="questions" *ngIf="currentStep === 7">
       <div class="question">
         <label for="license_state">License State</label>
         <select id="license_state" [(ngModel)]="license_state" name="license_state" required>
@@ -195,7 +223,7 @@
         <div class="error" *ngIf="errors['license_status']">{{ errors['license_status'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 5">
+    <div class="questions" *ngIf="currentStep === 6">
       <h3>Vehicle Summary</h3>
       <div *ngFor="let vehicle of vehicles; let i = index" class="vehicle-preview">
         <h4>Vehicle {{ i + 1 }}</h4>
@@ -203,15 +231,19 @@
         <p><strong>Model:</strong> {{ vehicle.model }}</p>
         <p><strong>Submodel:</strong> {{ vehicle.submodel }}</p>
         <p><strong>Year:</strong> {{ vehicle.year }}</p>
+        <p><strong>VIN:</strong> {{ vehicle.vin }}</p>
         <p><strong>Coverage Type:</strong> {{ vehicle.coverage_type }}</p>
         <p><strong>Garage:</strong> {{ vehicle.garage }}</p>
         <p><strong>Ownership:</strong> {{ vehicle.ownership }}</p>
         <p><strong>Primary Use:</strong> {{ vehicle.primary_use }}</p>
         <p><strong>Annual Miles:</strong> {{ vehicle.annual_miles }}</p>
         <p><strong>Currently Insured:</strong> {{ vehicle.currently_insured }}</p>
+        <p *ngIf="vehicle.currently_insured === 'Yes'"><strong>Current Insurer:</strong> {{ insurers[vehicle.current_insurer] }}</p>
+        <p *ngIf="vehicle.currently_insured === 'Yes'"><strong>Current Expiry:</strong> {{ vehicle.current_expiry }}</p>
+        <p *ngIf="vehicle.currently_insured === 'Yes'"><strong>Length Insured:</strong> {{ lengthInsuredOptions[vehicle.length_insured] }}</p>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 7">
+    <div class="questions" *ngIf="currentStep === 8">
       <div class="question">
         <label for="date_of_birth">Date of Birth</label>
         <input type="date" id="date_of_birth" [(ngModel)]="date_of_birth" name="date_of_birth" required [max]="maxDate">
@@ -242,7 +274,7 @@
         <div class="error" *ngIf="errors['phone']">{{ errors['phone'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 13">
+    <div class="questions" *ngIf="currentStep === 14">
       <div class="question">
         <label for="state">State</label>
         <select id="state" [(ngModel)]="state" name="state" required>
@@ -309,7 +341,7 @@
         <div class="error" *ngIf="errors['zip']">{{ errors['zip'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 14">
+    <div class="questions" *ngIf="currentStep === 15">
       <div class="question">
         <label for="city">City</label>
         <input type="text" id="city" [(ngModel)]="city" name="city" required>
@@ -321,7 +353,7 @@
         <div class="error" *ngIf="errors['street_address']">{{ errors['street_address'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 8">
+    <div class="questions" *ngIf="currentStep === 9">
       <div class="question">
         <label for="marital_status">Marital Status</label>
         <select id="marital_status" [(ngModel)]="marital_status" name="marital_status" required>
@@ -350,7 +382,7 @@
         <div class="error" *ngIf="errors['education']">{{ errors['education'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 9">
+    <div class="questions" *ngIf="currentStep === 10">
       <div class="question">
         <label for="tickets_past_12_months">Any tickets in past 12 months</label>
         <select id="tickets_past_12_months" [(ngModel)]="tickets_past_12_months" name="tickets_past_12_months" required>
@@ -430,12 +462,13 @@
         <div class="error" *ngIf="errors['num_claims']">{{ errors['num_claims'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 15">
+    <div class="questions" *ngIf="currentStep === 16">
       <div class="question">
-        <label for="agreement" class="checkbox-label">
-          <input type="checkbox" id="agreement" [(ngModel)]="agreement" name="agreement">
-          By clicking GET YOUR QUOTE, I agree to the <a href="/policies?tab=privacy" target="_blank">Terms of Service and Privacy Policy</a>, I authorize Insurance on Wheel companies, their contractors, and <a href="/marketing-partners" target="_blank">Partner Companies</a> to contact me about Insurance on Wheel offers by phone calls and text messages to the number I provided. I authorize that these marketing communications may be delivered to me using an automatic telephone dialing system or by prerecorded message. I understand that my consent is not a condition of purchase, and I may revoke that consent at any time. Mobile and data charges may apply. <a href="/policies?tab=company" target="_blank">California Residents</a>.
-        </label>
+        <label for="leadid_tcpa_disclosure" class="checkbox-label">
+          <label>
+          <input type="checkbox" id="leadid_tcpa_disclosure" [(ngModel)]="agreement" name="agreement">
+          By clicking GET YOUR QUOTE, I agree to the <a href="/policies?tab=privacy" target="_blank">Terms of Service and Privacy Policy</a>, I authorize auto insurance companies, their <a href="/marketing-partners" target="_blank">Partner Companies</a> to contact me about auto insurance offers by phone calls and text messages to the number I provided. I authorize that these marketing communications may be delivered to me using an automatic telephone dialing system or by prerecorded message. I understand that my consent is not a condition of purchase, and I may revoke that consent at any time. Mobile and data charges may apply. <a href="/policies?tab=company" target="_blank">California Residents</a>.
+        </label></label>
         <div class="error" *ngIf="errors['agreement']">{{ errors['agreement'] }}</div>
       </div>
       <input type="hidden" name="ipaddress" [(ngModel)]="ipaddress">

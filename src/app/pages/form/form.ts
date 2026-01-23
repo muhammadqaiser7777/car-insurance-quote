@@ -13,19 +13,23 @@ import { VehicleDataService } from './services/vehicle-data.service';
 })
 export class Form implements OnInit {
   currentStep: number = 1;
-  totalSteps: number = 15;
+  totalSteps: number = 16;
   vehicles: any[] = [];
   currentVehicle: any = {
     make: '',
     model: '',
     submodel: '',
     year: '',
+    vin: '',
     coverage_type: '',
     garage: '',
     ownership: '',
     primary_use: '',
     annual_miles: '',
-    currently_insured: ''
+    currently_insured: '',
+    current_insurer: '',
+    current_expiry: '',
+    length_insured: ''
   };
   addAnotherVehicle: string = '';
   license_state: string = '';
@@ -40,6 +44,7 @@ export class Form implements OnInit {
   street_address: string = '';
   date_of_birth: string = '';
   maxDate: string = '';
+  minDate: string = '';
   marital_status: string = '';
   education: string = '';
   tickets_past_12_months: string = '';
@@ -190,7 +195,55 @@ export class Form implements OnInit {
     787, 939,
     // U.S. Virgin Islands
     340
-  ];
+    ];
+    insurers: string[] = [
+      'Other',
+      '21st Century Insurance',
+      'AAA Insurance',
+      'Allied',
+      'Allstate',
+      'American Family',
+      'American National Insurance',
+      'Amica',
+      'Auto Owners',
+      'Cal Farm Insurance',
+      'Chubb Insurance',
+      'Citizens',
+      'Cotton States Insurance',
+      'Country Financial & Insurance',
+      'Erie',
+      'Esurance',
+      'Farm Bureau',
+      'Farmers Insurance',
+      'GEICO',
+      'GMAC Insurance',
+      'Hartford',
+      'Infinity Insurance',
+      'Kemper',
+      'Liberty Mutual',
+      'Mercury',
+      'Metlife',
+      'Metropolitan Insurance',
+      'Nationwide',
+      'Progressive',
+      'SAFECO',
+      'Safeway Insurance',
+      'Sentry Insurance Company',
+      'Shelter Insurance Company',
+      'State Farm',
+      'Travelers',
+      'Tri-State Consumer Insurance',
+      'Unitrin Direct',
+      'USAA'
+    ];
+    lengthInsuredOptions: string[] = [
+      'less than 1 year',
+      '1 to 2 years',
+      '2 to 3 years',
+      '3 to 4 years',
+      '4 to 5 years',
+      '5 years or more'
+    ];
 
   constructor(private http: HttpClient, private router: Router, private renderer: Renderer2, private el: ElementRef, public vehicleDataService: VehicleDataService) {}
 
@@ -199,6 +252,7 @@ export class Form implements OnInit {
     this.parseUrlParams();
     const today = new Date();
     this.maxDate = new Date(today.getFullYear() - 15, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+    this.minDate = new Date().toISOString().split('T')[0];
     this.injectTrustedFormPing();
     // Start injecting TrustedForm and LeadID immediately on load
     this.injectTrustedForm();
@@ -259,6 +313,10 @@ export class Form implements OnInit {
     this.availableYears = this.vehicleDataService.years[key] || this.getDefaultYears();
   }
 
+  onVinInput() {
+    this.currentVehicle.vin = this.currentVehicle.vin.toUpperCase().replace(/[^0-9A-HJ-NPR-Z]/g, '').substring(0,17);
+  }
+
   private getDefaultYears(): string[] {
     const currentYear = new Date().getFullYear();
     const years = [];
@@ -292,7 +350,7 @@ export class Form implements OnInit {
         this.xxTrustedFormCertUrl = (certInput as HTMLInputElement).value;
       }
     }, 500);
-    if (this.currentStep === 13) {
+    if (this.currentStep === 14) {
       if (await this.validateCurrentStep()) {
         this.isValidatingZip = true;
         this.http.get(`https://steermarketeer.com/api/a9f3b2c1e7d4?zip=${this.zip}`).subscribe({
@@ -331,7 +389,7 @@ export class Form implements OnInit {
           }
         });
       }
-    } else if (this.currentStep === 14) {
+    } else if (this.currentStep === 15) {
       if (await this.validateCurrentStep()) {
         const maritalStatusMap = { 'Single': 1, 'Married': 2, 'Divorced': 3, 'Separated': 4, 'Widowed': 5, 'Domestic Partner': 6 };
         const educationMap = { 'High School Diploma': 1, 'Associate Degree': 2, 'BS': 3, 'MS': 4, 'Some College': 5, 'Some or no High School': 6, 'Less than High School': 7 };
@@ -380,12 +438,17 @@ export class Form implements OnInit {
           logData[`model${suffix}`] = vehicle.model;
           logData[`submodel${suffix}`] = vehicle.submodel;
           logData[`year${suffix}`] = vehicle.year;
+          logData[`vin${suffix}`] = vehicle.vin;
           logData[`coverage_type${suffix}`] = coverageTypeMap[vehicle.coverage_type as keyof typeof coverageTypeMap] || vehicle.coverage_type;
           logData[`garage${suffix}`] = garageMap[vehicle.garage as keyof typeof garageMap] || vehicle.garage;
           logData[`ownership${suffix}`] = ownershipMap[vehicle.ownership as keyof typeof ownershipMap] || vehicle.ownership;
           logData[`primary_use${suffix}`] = primaryUseMap[vehicle.primary_use as keyof typeof primaryUseMap] || vehicle.primary_use;
           logData[`annual_miles${suffix}`] = annualMilesMap[vehicle.annual_miles as keyof typeof annualMilesMap] || vehicle.annual_miles;
           logData[`currently_insured${suffix}`] = yesNoMap[vehicle.currently_insured as keyof typeof yesNoMap] || vehicle.currently_insured;
+          logData[`current_insurer${suffix}`] = vehicle.current_insurer;
+          logData[`current_insurer${suffix}`] = vehicle.current_insurer;
+          logData[`current_expiry${suffix}`] = vehicle.current_expiry;
+          logData[`length_insured${suffix}`] = vehicle.length_insured;
         });
         this.isValidatingIP = true;
         this.http.get(`https://ipapi.co/${this.ipaddress}/json/`).subscribe({
@@ -408,7 +471,7 @@ export class Form implements OnInit {
         });
       }
     } else if (await this.validateCurrentStep()) {
-      if (this.currentStep === 4) {
+      if (this.currentStep === 5) {
         if (this.addAnotherVehicle === 'Yes') {
           this.vehicles.push({ ...this.currentVehicle });
           this.currentVehicle = {
@@ -416,12 +479,16 @@ export class Form implements OnInit {
             model: '',
             submodel: '',
             year: '',
+            vin: '',
             coverage_type: '',
             garage: '',
             ownership: '',
             primary_use: '',
             annual_miles: '',
-            currently_insured: ''
+            currently_insured: '',
+            current_insurer: '',
+            current_expiry: '',
+            length_insured: ''
           };
           this.addAnotherVehicle = '';
           this.currentStep = 1;
@@ -432,7 +499,7 @@ export class Form implements OnInit {
           this.availableYears = [];
         } else if (this.addAnotherVehicle === 'No') {
           this.vehicles.push({ ...this.currentVehicle });
-          this.currentStep = 5;
+          this.currentStep = 6;
         }
       } else if (this.currentStep < this.totalSteps) {
         this.currentStep++;
@@ -465,6 +532,10 @@ export class Form implements OnInit {
         this.errors['year'] = 'Please select a car year.';
         valid = false;
       }
+      if (!this.currentVehicle.vin || this.currentVehicle.vin.length !== 17) {
+        this.errors['vin'] = 'VIN must be exactly 17 characters.';
+        valid = false;
+      }
     } else if (this.currentStep === 2) {
       if (!this.currentVehicle.coverage_type) {
         this.errors['coverage_type'] = 'Please select a coverage type.';
@@ -487,16 +558,34 @@ export class Form implements OnInit {
         this.errors['annual_miles'] = 'Please select annual mileage.';
         valid = false;
       }
+    } else if (this.currentStep === 4) {
       if (!this.currentVehicle.currently_insured) {
         this.errors['currently_insured'] = 'Please select if you are currently insured.';
         valid = false;
       }
-    } else if (this.currentStep === 4) {
+      if (this.currentVehicle.currently_insured === 'Yes' && !this.currentVehicle.current_insurer) {
+        this.errors['current_insurer'] = 'Please select your current insurer.';
+        valid = false;
+      }
+      if (this.currentVehicle.currently_insured === 'Yes' && !this.currentVehicle.current_expiry) {
+        this.errors['current_expiry'] = 'Please select your current insurance expiry date.';
+        valid = false;
+      }
+      if (this.currentVehicle.currently_insured === 'Yes' && !this.currentVehicle.length_insured) {
+        this.errors['length_insured'] = 'Please select how long you have been insured.';
+        valid = false;
+      }
+    } else if (this.currentStep === 5) {
       if (!this.addAnotherVehicle) {
         this.errors['add_another'] = 'Please select yes or no.';
         valid = false;
+      } else if (this.addAnotherVehicle === 'Yes' && this.vehicles.length >= 5) {
+        this.errors['add_another'] = 'Maximum of 5 vehicles allowed.';
+        valid = false;
       }
     } else if (this.currentStep === 6) {
+      // No validation for summary step
+    } else if (this.currentStep === 7) {
       if (!this.license_state) {
         this.errors['license_state'] = 'Please select a license state.';
         valid = false;
@@ -505,7 +594,7 @@ export class Form implements OnInit {
         this.errors['license_status'] = 'Please select a license status.';
         valid = false;
       }
-    } else if (this.currentStep === 7) {
+    } else if (this.currentStep === 8) {
       if (!this.date_of_birth) {
         this.errors['date_of_birth'] = 'Please enter your date of birth.';
         valid = false;
@@ -523,7 +612,7 @@ export class Form implements OnInit {
           }
         }
       }
-    } else if (this.currentStep === 8) {
+    } else if (this.currentStep === 9) {
       if (!this.marital_status) {
         this.errors['marital_status'] = 'Please select your marital status.';
         valid = false;
@@ -532,7 +621,7 @@ export class Form implements OnInit {
         this.errors['education'] = 'Please select your education level.';
         valid = false;
       }
-    } else if (this.currentStep === 9) {
+    } else if (this.currentStep === 10) {
       if (!this.tickets_past_12_months) {
         this.errors['tickets_past_12_months'] = 'Please select yes or no.';
         valid = false;
@@ -547,7 +636,6 @@ export class Form implements OnInit {
         this.errors['num_major_violations'] = 'Please select the number of major violations.';
         valid = false;
       }
-    } else if (this.currentStep === 10) {
       if (!this.accidents_past_12_months) {
         this.errors['accidents_past_12_months'] = 'Please select yes or no.';
         valid = false;
