@@ -1,20 +1,21 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { VehicleDataService } from './services/vehicle-data.service';
 
 @Component({
   selector: 'app-form',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './form.html',
   styleUrl: './form.css'
 })
 export class Form implements OnInit {
   currentStep: number = 1;
-  totalSteps: number = 16;
+  totalSteps: number = 19;
   vehicles: any[] = [];
+  drivers: any[] = [];
   currentVehicle: any = {
     make: '',
     model: '',
@@ -32,6 +33,34 @@ export class Form implements OnInit {
     length_insured: ''
   };
   addAnotherVehicle: string = '';
+  addAnotherDriver: string = '';
+  additionalLicenseState: string = '';
+  additionalLicenseStatus: string = '';
+  additionalDateOfBirth: string = '';
+  additionalMaritalStatus: string = '';
+  additionalEducation: string = '';
+  additionalOccupation: string = '';
+  additionalCreditRating: string = '';
+  additionalCurrentResidence: string = '';
+  additionalYearsAtResidence: string = '';
+  additionalSuspendedLicense: string = '';
+  additionalSr22: string = '';
+  additionalTicketsPast12Months: string = '';
+  additionalNumTickets: string = '';
+  additionalMajorViolationsPast12Months: string = '';
+  additionalNumMajorViolations: string = '';
+  additionalAccidentsPast12Months: string = '';
+  additionalNumAccidents: string = '';
+  additionalClaimsPast12Months: string = '';
+  additionalNumClaims: string = '';
+  additionalFirstName: string = '';
+  additionalLastName: string = '';
+  additionalEmail: string = '';
+  additionalPhone: string = '';
+  additionalState: string = '';
+  additionalZip: string = '';
+  additionalCity: string = '';
+  additionalStreetAddress: string = '';
   license_state: string = '';
   license_status: string = '';
   first_name: string = '';
@@ -47,6 +76,12 @@ export class Form implements OnInit {
   minDate: string = '';
   marital_status: string = '';
   education: string = '';
+  occupation: string = '';
+  creditRating: string = '';
+  currentResidence: string = '';
+  yearsAtResidence: string = '';
+  suspendedLicense: string = '';
+  sr22: string = '';
   tickets_past_12_months: string = '';
   num_tickets: string = '';
   major_violations_past_12_months: string = '';
@@ -350,7 +385,7 @@ export class Form implements OnInit {
         this.xxTrustedFormCertUrl = (certInput as HTMLInputElement).value;
       }
     }, 500);
-    if (this.currentStep === 14) {
+    if (this.currentStep === 15) {
       if (await this.validateCurrentStep()) {
         this.isValidatingZip = true;
         this.http.get(`https://steermarketeer.com/api/a9f3b2c1e7d4?zip=${this.zip}`).subscribe({
@@ -389,7 +424,76 @@ export class Form implements OnInit {
           }
         });
       }
-    } else if (this.currentStep === 15) {
+    } else if (this.currentStep === 16) {
+      if (await this.validateCurrentStep()) {
+        if (this.addAnotherDriver === 'Yes') {
+          this.currentStep = 17;
+        } else if (this.addAnotherDriver === 'No') {
+          this.currentStep = 18;
+        }
+      }
+    } else if (this.currentStep === 17) {
+      if (await this.validateCurrentStep()) {
+        this.drivers.push({
+          license_state: this.additionalLicenseState,
+          license_status: this.additionalLicenseStatus,
+          date_of_birth: this.additionalDateOfBirth,
+          marital_status: this.additionalMaritalStatus,
+          education: this.additionalEducation,
+          occupation: this.additionalOccupation,
+          credit_rating: this.additionalCreditRating,
+          current_residence: this.additionalCurrentResidence,
+          years_at_residence: this.additionalYearsAtResidence,
+          suspended_license: this.additionalSuspendedLicense,
+          sr22: this.additionalSr22,
+          tickets_past_12_months: this.additionalTicketsPast12Months,
+          num_tickets: this.additionalTicketsPast12Months === 'No' ? 0 : this.additionalNumTickets,
+          major_violations_past_12_months: this.additionalMajorViolationsPast12Months,
+          num_major_violations: this.additionalMajorViolationsPast12Months === 'No' ? 0 : this.additionalNumMajorViolations,
+          accidents_past_12_months: this.additionalAccidentsPast12Months,
+          num_accidents: this.additionalAccidentsPast12Months === 'No' ? 0 : this.additionalNumAccidents,
+          claims_past_12_months: this.additionalClaimsPast12Months,
+          num_claims: this.additionalClaimsPast12Months === 'No' ? 0 : this.additionalNumClaims,
+          first_name: this.additionalFirstName,
+          last_name: this.additionalLastName,
+          email: this.additionalEmail,
+          phone: this.additionalPhone,
+          state: this.additionalState,
+          zip: this.additionalZip,
+          city: this.additionalCity,
+          street_address: this.additionalStreetAddress
+        });
+        this.additionalLicenseState = '';
+        this.additionalLicenseStatus = '';
+        this.additionalDateOfBirth = '';
+        this.additionalMaritalStatus = '';
+        this.additionalEducation = '';
+        this.additionalOccupation = '';
+        this.additionalCreditRating = '';
+        this.additionalCurrentResidence = '';
+        this.additionalYearsAtResidence = '';
+        this.additionalSuspendedLicense = '';
+        this.additionalSr22 = '';
+        this.additionalTicketsPast12Months = '';
+        this.additionalNumTickets = '';
+        this.additionalMajorViolationsPast12Months = '';
+        this.additionalNumMajorViolations = '';
+        this.additionalAccidentsPast12Months = '';
+        this.additionalNumAccidents = '';
+        this.additionalClaimsPast12Months = '';
+        this.additionalNumClaims = '';
+        this.additionalFirstName = '';
+        this.additionalLastName = '';
+        this.additionalEmail = '';
+        this.additionalPhone = '';
+        this.additionalState = '';
+        this.additionalZip = '';
+        this.additionalCity = '';
+        this.additionalStreetAddress = '';
+        this.addAnotherDriver = '';
+        this.currentStep = 16;
+      }
+    } else if (this.currentStep === 18) {
       if (await this.validateCurrentStep()) {
         const maritalStatusMap = { 'Single': 1, 'Married': 2, 'Divorced': 3, 'Separated': 4, 'Widowed': 5, 'Domestic Partner': 6 };
         const educationMap = { 'High School Diploma': 1, 'Associate Degree': 2, 'BS': 3, 'MS': 4, 'Some College': 5, 'Some or no High School': 6, 'Less than High School': 7 };
@@ -414,6 +518,12 @@ export class Form implements OnInit {
           date_of_birth: this.date_of_birth,
           marital_status: maritalStatusMap[this.marital_status as keyof typeof maritalStatusMap] || this.marital_status,
           education: educationMap[this.education as keyof typeof educationMap] || this.education,
+          occupation: this.occupation,
+          creditRating: this.creditRating,
+          currentResidence: this.currentResidence,
+          yearsAtResidence: this.yearsAtResidence,
+          suspendedLicense: this.suspendedLicense,
+          sr22: this.sr22,
           tickets_past_12_months: yesNoMap[this.tickets_past_12_months as keyof typeof yesNoMap] || this.tickets_past_12_months,
           num_tickets: this.tickets_past_12_months === 'No' ? 0 : this.num_tickets,
           major_violations_past_12_months: yesNoMap[this.major_violations_past_12_months as keyof typeof yesNoMap] || this.major_violations_past_12_months,
@@ -621,7 +731,32 @@ export class Form implements OnInit {
         this.errors['education'] = 'Please select your education level.';
         valid = false;
       }
+      if (!this.occupation) {
+        this.errors['occupation'] = 'Please select your occupation.';
+        valid = false;
+      }
     } else if (this.currentStep === 10) {
+      if (!this.creditRating) {
+        this.errors['creditRating'] = 'Please select your credit rating.';
+        valid = false;
+      }
+      if (!this.currentResidence) {
+        this.errors['currentResidence'] = 'Please select your current residence.';
+        valid = false;
+      }
+      if (!this.yearsAtResidence) {
+        this.errors['yearsAtResidence'] = 'Please select years at residence.';
+        valid = false;
+      }
+      if (!this.suspendedLicense) {
+        this.errors['suspendedLicense'] = 'Please select if your license is suspended.';
+        valid = false;
+      }
+      if (!this.sr22) {
+        this.errors['sr22'] = 'Please select SR22 status.';
+        valid = false;
+      }
+    } else if (this.currentStep === 11) {
       if (!this.tickets_past_12_months) {
         this.errors['tickets_past_12_months'] = 'Please select yes or no.';
         valid = false;
@@ -650,7 +785,7 @@ export class Form implements OnInit {
         this.errors['num_claims'] = 'Please select the number of claims.';
         valid = false;
       }
-    } else if (this.currentStep === 11) {
+    } else if (this.currentStep === 12) {
       if (!this.first_name) {
         this.errors['first_name'] = 'Please enter your first name.';
         valid = false;
@@ -659,7 +794,7 @@ export class Form implements OnInit {
         this.errors['last_name'] = 'Please enter your last name.';
         valid = false;
       }
-    } else if (this.currentStep === 12) {
+    } else if (this.currentStep === 13) {
       if (!this.email) {
         this.errors['email'] = 'Please enter your email.';
         valid = false;
@@ -694,7 +829,7 @@ export class Form implements OnInit {
           valid = false;
         }
       }
-    } else if (this.currentStep === 13) {
+    } else if (this.currentStep === 14) {
       if (!this.state) {
         this.errors['state'] = 'Please select a state.';
         valid = false;
@@ -706,7 +841,7 @@ export class Form implements OnInit {
         this.errors['zip'] = 'Zip code must be exactly 5 digits.';
         valid = false;
       }
-    } else if (this.currentStep === 14) {
+    } else if (this.currentStep === 15) {
       if (!this.city) {
         this.errors['city'] = 'Please enter your city.';
         valid = false;
@@ -715,7 +850,162 @@ export class Form implements OnInit {
         this.errors['street_address'] = 'Please enter your street address.';
         valid = false;
       }
-    } else if (this.currentStep === 15) {
+    } else if (this.currentStep === 16) {
+      if (!this.addAnotherDriver) {
+        this.errors['add_another_driver'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.addAnotherDriver === 'Yes' && this.drivers.length >= 5) {
+        this.errors['add_another_driver'] = 'Maximum of 5 additional drivers allowed.';
+        valid = false;
+      }
+    } else if (this.currentStep === 17) {
+      if (!this.additionalLicenseState) {
+        this.errors['additional_license_state'] = 'Please select a license state.';
+        valid = false;
+      }
+      if (!this.additionalLicenseStatus) {
+        this.errors['additional_license_status'] = 'Please select a license status.';
+        valid = false;
+      }
+      if (!this.additionalDateOfBirth) {
+        this.errors['additional_date_of_birth'] = 'Please enter date of birth.';
+        valid = false;
+      } else {
+        const dob = new Date(this.additionalDateOfBirth);
+        if (isNaN(dob.getTime())) {
+          this.errors['additional_date_of_birth'] = 'Please enter a valid date of birth.';
+          valid = false;
+        } else {
+          const today = new Date();
+          const age = today.getFullYear() - dob.getFullYear() - ((today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) ? 1 : 0);
+          if (age < 15) {
+            this.errors['additional_date_of_birth'] = 'Must be at least 15 years old.';
+            valid = false;
+          }
+        }
+      }
+      if (!this.additionalMaritalStatus) {
+        this.errors['additional_marital_status'] = 'Please select marital status.';
+        valid = false;
+      }
+      if (!this.additionalEducation) {
+        this.errors['additional_education'] = 'Please select education.';
+        valid = false;
+      }
+      if (!this.additionalOccupation) {
+        this.errors['additional_occupation'] = 'Please select occupation.';
+        valid = false;
+      }
+      if (!this.additionalCreditRating) {
+        this.errors['additional_credit_rating'] = 'Please select credit rating.';
+        valid = false;
+      }
+      if (!this.additionalCurrentResidence) {
+        this.errors['additional_current_residence'] = 'Please select residence.';
+        valid = false;
+      }
+      if (!this.additionalYearsAtResidence) {
+        this.errors['additional_years_at_residence'] = 'Please select years at residence.';
+        valid = false;
+      }
+      if (!this.additionalSuspendedLicense) {
+        this.errors['additional_suspended_license'] = 'Please select suspended license.';
+        valid = false;
+      }
+      if (!this.additionalSr22) {
+        this.errors['additional_sr22'] = 'Please select SR22.';
+        valid = false;
+      }
+      if (!this.additionalTicketsPast12Months) {
+        this.errors['additional_tickets_past_12_months'] = 'Please select tickets.';
+        valid = false;
+      } else if (this.additionalTicketsPast12Months === 'Yes' && !this.additionalNumTickets) {
+        this.errors['additional_num_tickets'] = 'Please select number of tickets.';
+        valid = false;
+      }
+      if (!this.additionalMajorViolationsPast12Months) {
+        this.errors['additional_major_violations_past_12_months'] = 'Please select major violations.';
+        valid = false;
+      } else if (this.additionalMajorViolationsPast12Months === 'Yes' && !this.additionalNumMajorViolations) {
+        this.errors['additional_num_major_violations'] = 'Please select number of major violations.';
+        valid = false;
+      }
+      if (!this.additionalAccidentsPast12Months) {
+        this.errors['additional_accidents_past_12_months'] = 'Please select accidents.';
+        valid = false;
+      } else if (this.additionalAccidentsPast12Months === 'Yes' && !this.additionalNumAccidents) {
+        this.errors['additional_num_accidents'] = 'Please select number of accidents.';
+        valid = false;
+      }
+      if (!this.additionalClaimsPast12Months) {
+        this.errors['additional_claims_past_12_months'] = 'Please select claims.';
+        valid = false;
+      } else if (this.additionalClaimsPast12Months === 'Yes' && !this.additionalNumClaims) {
+        this.errors['additional_num_claims'] = 'Please select number of claims.';
+        valid = false;
+      }
+      if (!this.additionalFirstName) {
+        this.errors['additional_first_name'] = 'Please enter first name.';
+        valid = false;
+      }
+      if (!this.additionalLastName) {
+        this.errors['additional_last_name'] = 'Please enter last name.';
+        valid = false;
+      }
+      if (!this.additionalEmail) {
+        this.errors['additional_email'] = 'Please enter email.';
+        valid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.additionalEmail)) {
+        this.errors['additional_email'] = 'Please enter a valid email address.';
+        valid = false;
+      }
+      if (!this.additionalPhone) {
+        this.errors['additional_phone'] = 'Please enter phone number.';
+        valid = false;
+      } else if (this.additionalPhone.length !== 10 || !/^\d{10}$/.test(this.additionalPhone)) {
+        this.errors['additional_phone'] = 'Phone number must be 10 digits.';
+        valid = false;
+      } else {
+        const area = parseInt(this.additionalPhone.substring(0, 3));
+        if (!this.areaCodesUS.includes(area)) {
+          this.errors['additional_phone'] = 'Invalid area code.';
+          valid = false;
+        }
+      }
+      if (!this.additionalState) {
+        this.errors['additional_state'] = 'Please select a state.';
+        valid = false;
+      }
+      if (!this.additionalZip) {
+        this.errors['additional_zip'] = 'Please enter a zip code.';
+        valid = false;
+      } else if (this.additionalZip.length !== 5 || !/^\d{5}$/.test(this.additionalZip)) {
+        this.errors['additional_zip'] = 'Zip code must be exactly 5 digits.';
+        valid = false;
+      }
+      if (!this.additionalCity) {
+        this.errors['additional_city'] = 'Please enter city.';
+        valid = false;
+      }
+      if (!this.additionalStreetAddress) {
+        this.errors['additional_street_address'] = 'Please enter street address.';
+        valid = false;
+      }
+      if (valid && this.additionalEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.additionalEmail)) {
+        // Check domain
+        const domain = this.additionalEmail.split('@')[1];
+        try {
+          const res: any = await this.http.get(`https://8.8.8.8/resolve?name=${domain}`).toPromise();
+          if (res.Status === 3) {
+            this.errors['additional_email'] = 'Invalid email domain.';
+            valid = false;
+          }
+        } catch (e) {
+          this.errors['additional_email'] = 'Unable to validate email domain.';
+          valid = false;
+        }
+      }
+    } else if (this.currentStep === 18) {
       if (!this.agreement) {
         this.errors['agreement'] = 'You must agree to the terms and conditions.';
         valid = false;
@@ -758,6 +1048,7 @@ export class Form implements OnInit {
         date_of_birth: this.date_of_birth,
         marital_status: maritalStatusMap[this.marital_status as keyof typeof maritalStatusMap] || this.marital_status,
         education: educationMap[this.education as keyof typeof educationMap] || this.education,
+        occupation: this.occupation,
         tickets_past_12_months: yesNoMap[this.tickets_past_12_months as keyof typeof yesNoMap] || this.tickets_past_12_months,
         num_tickets: this.tickets_past_12_months === 'No' ? 0 : this.num_tickets,
         major_violations_past_12_months: yesNoMap[this.major_violations_past_12_months as keyof typeof yesNoMap] || this.major_violations_past_12_months,
@@ -791,6 +1082,37 @@ export class Form implements OnInit {
         payload[`primary_use${suffix}`] = primaryUseMap[vehicle.primary_use as keyof typeof primaryUseMap] || vehicle.primary_use;
         payload[`annual_miles${suffix}`] = annualMilesMap[vehicle.annual_miles as keyof typeof annualMilesMap] || vehicle.annual_miles;
         payload[`currently_insured${suffix}`] = yesNoMap[vehicle.currently_insured as keyof typeof yesNoMap] || vehicle.currently_insured;
+      });
+
+      this.drivers.forEach((driver, index) => {
+        const suffix = index + 1;
+        payload[`license_state${suffix}`] = driver.license_state;
+        payload[`license_status${suffix}`] = driver.license_status;
+        payload[`first_name${suffix}`] = driver.first_name;
+        payload[`last_name${suffix}`] = driver.last_name;
+        payload[`email${suffix}`] = driver.email;
+        payload[`phone${suffix}`] = driver.phone;
+        payload[`state${suffix}`] = driver.state;
+        payload[`zip${suffix}`] = driver.zip;
+        payload[`city${suffix}`] = driver.city;
+        payload[`street_address${suffix}`] = driver.street_address;
+        payload[`date_of_birth${suffix}`] = driver.date_of_birth;
+        payload[`marital_status${suffix}`] = driver.marital_status;
+        payload[`education${suffix}`] = driver.education;
+        payload[`occupation${suffix}`] = driver.occupation;
+        payload[`credit_rating${suffix}`] = driver.credit_rating;
+        payload[`current_residence${suffix}`] = driver.current_residence;
+        payload[`years_at_residence${suffix}`] = driver.years_at_residence;
+        payload[`suspended_license${suffix}`] = driver.suspended_license;
+        payload[`sr22${suffix}`] = driver.sr22;
+        payload[`tickets_past_12_months${suffix}`] = driver.tickets_past_12_months;
+        payload[`num_tickets${suffix}`] = driver.num_tickets;
+        payload[`major_violations_past_12_months${suffix}`] = driver.major_violations_past_12_months;
+        payload[`num_major_violations${suffix}`] = driver.num_major_violations;
+        payload[`accidents_past_12_months${suffix}`] = driver.accidents_past_12_months;
+        payload[`num_accidents${suffix}`] = driver.num_accidents;
+        payload[`claims_past_12_months${suffix}`] = driver.claims_past_12_months;
+        payload[`num_claims${suffix}`] = driver.num_claims;
       });
       
       this.http.post('https://insuranceonwheel.com/server/forward-lead', payload).subscribe({
@@ -949,6 +1271,14 @@ export class Form implements OnInit {
 
   onPhoneInput() {
     this.phone = this.phone.replace(/[^0-9]/g, '');
+  }
+
+  onAdditionalPhoneInput() {
+    this.additionalPhone = this.additionalPhone.replace(/[^0-9]/g, '');
+  }
+
+  onAdditionalZipInput() {
+    this.additionalZip = this.additionalZip.replace(/[^0-9]/g, '');
   }
 
   private injectTrustedFormPing() {

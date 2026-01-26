@@ -250,7 +250,7 @@
         <div class="error" *ngIf="errors['date_of_birth']">{{ errors['date_of_birth'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 11">
+    <div class="questions" *ngIf="currentStep === 12">
       <div class="question">
         <label for="first_name">First Name</label>
         <input type="text" id="first_name" [(ngModel)]="first_name" name="first_name" required (input)="onFirstNameInput()">
@@ -262,7 +262,7 @@
         <div class="error" *ngIf="errors['last_name']">{{ errors['last_name'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 12">
+    <div class="questions" *ngIf="currentStep === 14">
       <div class="question">
         <label for="email">Email</label>
         <input type="email" id="email" [(ngModel)]="email" name="email" required>
@@ -274,7 +274,7 @@
         <div class="error" *ngIf="errors['phone']">{{ errors['phone'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 14">
+    <div class="questions" *ngIf="currentStep === 15">
       <div class="question">
         <label for="state">State</label>
         <select id="state" [(ngModel)]="state" name="state" required>
@@ -341,7 +341,7 @@
         <div class="error" *ngIf="errors['zip']">{{ errors['zip'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 15">
+    <div class="questions" *ngIf="currentStep === 16">
       <div class="question">
         <label for="city">City</label>
         <input type="text" id="city" [(ngModel)]="city" name="city" required>
@@ -351,6 +351,381 @@
         <label for="street_address">Street Address</label>
         <input type="text" id="street_address" [(ngModel)]="street_address" name="street_address" required>
         <div class="error" *ngIf="errors['street_address']">{{ errors['street_address'] }}</div>
+      </div>
+    </div>
+    <div class="questions" *ngIf="currentStep === 17">
+      <div class="question">
+        <label for="add_another_driver">Add another driver? (Max 5 additional drivers)</label>
+        <select id="add_another_driver" [(ngModel)]="addAnotherDriver" name="add_another_driver" required>
+          <option value="">Select</option>
+          <option value="Yes" *ngIf="drivers.length < 5">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <div class="error" *ngIf="errors['add_another_driver']">{{ errors['add_another_driver'] }}</div>
+      </div>
+    </div>
+    <div class="questions" *ngIf="currentStep === 18">
+      <div class="question">
+        <label for="additional_license_state">License State</label>
+        <select id="additional_license_state" [(ngModel)]="additionalLicenseState" name="additional_license_state" required>
+          <option value="">Select a state</option>
+          <option value="AL">Alabama</option>
+          <option value="AK">Alaska</option>
+          <option value="AZ">Arizona</option>
+          <option value="AR">Arkansas</option>
+          <option value="CA">California</option>
+          <option value="CO">Colorado</option>
+          <option value="CT">Connecticut</option>
+          <option value="DE">Delaware</option>
+          <option value="DC">Washington DC</option>
+          <option value="FL">Florida</option>
+          <option value="GA">Georgia</option>
+          <option value="HI">Hawaii</option>
+          <option value="ID">Idaho</option>
+          <option value="IL">Illinois</option>
+          <option value="IN">Indiana</option>
+          <option value="IA">Iowa</option>
+          <option value="KS">Kansas</option>
+          <option value="KY">Kentucky</option>
+          <option value="LA">Louisiana</option>
+          <option value="ME">Maine</option>
+          <option value="MD">Maryland</option>
+          <option value="MA">Massachusetts</option>
+          <option value="MI">Michigan</option>
+          <option value="MN">Minnesota</option>
+          <option value="MS">Mississippi</option>
+          <option value="MO">Missouri</option>
+          <option value="MT">Montana</option>
+          <option value="NE">Nebraska</option>
+          <option value="NV">Nevada</option>
+          <option value="NH">New Hampshire</option>
+          <option value="NJ">New Jersey</option>
+          <option value="NM">New Mexico</option>
+          <option value="NY">New York</option>
+          <option value="NC">North Carolina</option>
+          <option value="ND">North Dakota</option>
+          <option value="OH">Ohio</option>
+          <option value="OK">Oklahoma</option>
+          <option value="OR">Oregon</option>
+          <option value="PA">Pennsylvania</option>
+          <option value="PR">Puerto Rico</option>
+          <option value="RI">Rhode Island</option>
+          <option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option>
+          <option value="TN">Tennessee</option>
+          <option value="TX">Texas</option>
+          <option value="UT">Utah</option>
+          <option value="VT">Vermont</option>
+          <option value="VI">Virgin Islands</option>
+          <option value="VA">Virginia</option>
+          <option value="WA">Washington</option>
+          <option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option>
+          <option value="WY">Wyoming</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_license_state']">{{ errors['additional_license_state'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_license_status">License Status</label>
+        <select id="additional_license_status" [(ngModel)]="additionalLicenseStatus" name="additional_license_status" required>
+          <option value="">Select status</option>
+          <option value="Active">Active</option>
+          <option value="International">International</option>
+          <option value="Learner">Learner</option>
+          <option value="Probation">Probation</option>
+          <option value="Restricted">Restricted</option>
+          <option value="Suspended">Suspended</option>
+          <option value="Temporary">Temporary</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_license_status']">{{ errors['additional_license_status'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_date_of_birth">Date of Birth</label>
+        <input type="date" id="additional_date_of_birth" [(ngModel)]="additionalDateOfBirth" name="additional_date_of_birth" required [max]="maxDate">
+        <div class="error" *ngIf="errors['additional_date_of_birth']">{{ errors['additional_date_of_birth'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_marital_status">Marital Status</label>
+        <select id="additional_marital_status" [(ngModel)]="additionalMaritalStatus" name="additional_marital_status" required>
+          <option value="">Select status</option>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Separated">Separated</option>
+          <option value="Widowed">Widowed</option>
+          <option value="Domestic Partner">Domestic Partner</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_marital_status']">{{ errors['additional_marital_status'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_education">Education</label>
+        <select id="additional_education" [(ngModel)]="additionalEducation" name="additional_education" required>
+          <option value="">Select education</option>
+          <option value="High School Diploma">High School Diploma</option>
+          <option value="Associate Degree">Associate Degree</option>
+          <option value="BS">BS</option>
+          <option value="MS">MS</option>
+          <option value="Some College">Some College</option>
+          <option value="Some or no High School">Some or no High School</option>
+          <option value="Less than High School">Less than High School</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_education']">{{ errors['additional_education'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_occupation">Occupation</label>
+        <select id="additional_occupation" [(ngModel)]="additionalOccupation" name="additional_occupation" required>
+          <option value="">Select occupation</option>
+          <option value="0">Unemployed</option>
+          <option value="1">Administrative Clerical</option>
+          <option value="2">Business Owner</option>
+          <option value="3">Certified Public Accountant</option>
+          <option value="4">Clergy</option>
+          <option value="5">Dentist</option>
+          <option value="6">Disabled</option>
+          <option value="7">Engineer</option>
+          <option value="8">Homemaker</option>
+          <option value="9">Lawyer</option>
+          <option value="10">Manager/Supervisor</option>
+          <option value="11">Military Officer</option>
+          <option value="12">Military Enlisted</option>
+          <option value="13">Minor</option>
+          <option value="14">Other Non-Technical</option>
+          <option value="15">Physician</option>
+          <option value="16">Professional Salaried</option>
+          <option value="17">Retail</option>
+          <option value="18">Retired</option>
+          <option value="19">Sales, Inside</option>
+          <option value="20">Sales, Outside</option>
+          <option value="21">Scientist</option>
+          <option value="22">Security</option>
+          <option value="23">Self Employed</option>
+          <option value="24">Skilled/Semi Skilled</option>
+          <option value="25">Student</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_occupation']">{{ errors['additional_occupation'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_credit_rating">Credit Rating</label>
+        <select id="additional_credit_rating" [(ngModel)]="additionalCreditRating" name="additional_credit_rating" required>
+          <option value="">Select credit rating</option>
+          <option value="0">Unsure</option>
+          <option value="1">Poor</option>
+          <option value="2">Good</option>
+          <option value="3">Excellent</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_credit_rating']">{{ errors['additional_credit_rating'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_current_residence">Current Residence</label>
+        <select id="additional_current_residence" [(ngModel)]="additionalCurrentResidence" name="additional_current_residence" required>
+          <option value="">Select residence type</option>
+          <option value="0">Other</option>
+          <option value="1">Own</option>
+          <option value="2">Rent</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_current_residence']">{{ errors['additional_current_residence'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_years_at_residence">Years at Residence</label>
+        <select id="additional_years_at_residence" [(ngModel)]="additionalYearsAtResidence" name="additional_years_at_residence" required>
+          <option value="">Select years</option>
+          <option value="0">less than 1 year</option>
+          <option value="1">1 to 2 years</option>
+          <option value="2">2 to 3 years</option>
+          <option value="3">3 to 4 years</option>
+          <option value="4">4 to 5 years</option>
+          <option value="5">5 years or more</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_years_at_residence']">{{ errors['additional_years_at_residence'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_suspended_license">Suspended License</label>
+        <select id="additional_suspended_license" [(ngModel)]="additionalSuspendedLicense" name="additional_suspended_license" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="2">No</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_suspended_license']">{{ errors['additional_suspended_license'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_sr22">SR22</label>
+        <select id="additional_sr22" [(ngModel)]="additionalSr22" name="additional_sr22" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="2">No</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_sr22']">{{ errors['additional_sr22'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_tickets_past_12_months">Any tickets in past 12 months</label>
+        <select id="additional_tickets_past_12_months" [(ngModel)]="additionalTicketsPast12Months" name="additional_tickets_past_12_months" required>
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_tickets_past_12_months']">{{ errors['additional_tickets_past_12_months'] }}</div>
+      </div>
+      <div class="question" *ngIf="additionalTicketsPast12Months === 'Yes'">
+        <label for="additional_num_tickets">No of tickets</label>
+        <select id="additional_num_tickets" [(ngModel)]="additionalNumTickets" name="additional_num_tickets" required>
+          <option value="">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_num_tickets']">{{ errors['additional_num_tickets'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_major_violations_past_12_months">Any major violations in past 12 months</label>
+        <select id="additional_major_violations_past_12_months" [(ngModel)]="additionalMajorViolationsPast12Months" name="additional_major_violations_past_12_months" required>
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_major_violations_past_12_months']">{{ errors['additional_major_violations_past_12_months'] }}</div>
+      </div>
+      <div class="question" *ngIf="additionalMajorViolationsPast12Months === 'Yes'">
+        <label for="additional_num_major_violations">No of major violations</label>
+        <select id="additional_num_major_violations" [(ngModel)]="additionalNumMajorViolations" name="additional_num_major_violations" required>
+          <option value="">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_num_major_violations']">{{ errors['additional_num_major_violations'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_accidents_past_12_months">Any accidents in past 12 months</label>
+        <select id="additional_accidents_past_12_months" [(ngModel)]="additionalAccidentsPast12Months" name="additional_accidents_past_12_months" required>
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_accidents_past_12_months']">{{ errors['additional_accidents_past_12_months'] }}</div>
+      </div>
+      <div class="question" *ngIf="additionalAccidentsPast12Months === 'Yes'">
+        <label for="additional_num_accidents">No of accidents</label>
+        <select id="additional_num_accidents" [(ngModel)]="additionalNumAccidents" name="additional_num_accidents" required>
+          <option value="">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_num_accidents']">{{ errors['additional_num_accidents'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_claims_past_12_months">Any claims in past 12 months</label>
+        <select id="additional_claims_past_12_months" [(ngModel)]="additionalClaimsPast12Months" name="additional_claims_past_12_months" required>
+          <option value="">Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_claims_past_12_months']">{{ errors['additional_claims_past_12_months'] }}</div>
+      </div>
+      <div class="question" *ngIf="additionalClaimsPast12Months === 'Yes'">
+        <label for="additional_num_claims">No of claims</label>
+        <select id="additional_num_claims" [(ngModel)]="additionalNumClaims" name="additional_num_claims" required>
+          <option value="">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_num_claims']">{{ errors['additional_num_claims'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_first_name">First Name</label>
+        <input type="text" id="additional_first_name" [(ngModel)]="additionalFirstName" name="additional_first_name" required (input)="onFirstNameInput()">
+        <div class="error" *ngIf="errors['additional_first_name']">{{ errors['additional_first_name'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_last_name">Last Name</label>
+        <input type="text" id="additional_last_name" [(ngModel)]="additionalLastName" name="additional_last_name" required (input)="onLastNameInput()">
+        <div class="error" *ngIf="errors['additional_last_name']">{{ errors['additional_last_name'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_email">Email</label>
+        <input type="email" id="additional_email" [(ngModel)]="additionalEmail" name="additional_email" required>
+        <div class="error" *ngIf="errors['additional_email']">{{ errors['additional_email'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_phone">Phone</label>
+        <input type="tel" id="additional_phone" [(ngModel)]="additionalPhone" name="additional_phone" required maxlength="10" pattern="[0-9]{10}" (input)="onAdditionalPhoneInput()">
+        <div class="error" *ngIf="errors['additional_phone']">{{ errors['additional_phone'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_state">State</label>
+        <select id="additional_state" [(ngModel)]="additionalState" name="additional_state" required>
+          <option value="">Select a state</option>
+          <option value="AL">Alabama</option>
+          <option value="AK">Alaska</option>
+          <option value="AZ">Arizona</option>
+          <option value="AR">Arkansas</option>
+          <option value="CA">California</option>
+          <option value="CO">Colorado</option>
+          <option value="CT">Connecticut</option>
+          <option value="DE">Delaware</option>
+          <option value="DC">Washington DC</option>
+          <option value="FL">Florida</option>
+          <option value="GA">Georgia</option>
+          <option value="HI">Hawaii</option>
+          <option value="ID">Idaho</option>
+          <option value="IL">Illinois</option>
+          <option value="IN">Indiana</option>
+          <option value="IA">Iowa</option>
+          <option value="KS">Kansas</option>
+          <option value="KY">Kentucky</option>
+          <option value="LA">Louisiana</option>
+          <option value="ME">Maine</option>
+          <option value="MD">Maryland</option>
+          <option value="MA">Massachusetts</option>
+          <option value="MI">Michigan</option>
+          <option value="MN">Minnesota</option>
+          <option value="MS">Mississippi</option>
+          <option value="MO">Missouri</option>
+          <option value="MT">Montana</option>
+          <option value="NE">Nebraska</option>
+          <option value="NV">Nevada</option>
+          <option value="NH">New Hampshire</option>
+          <option value="NJ">New Jersey</option>
+          <option value="NM">New Mexico</option>
+          <option value="NY">New York</option>
+          <option value="NC">North Carolina</option>
+          <option value="ND">North Dakota</option>
+          <option value="OH">Ohio</option>
+          <option value="OK">Oklahoma</option>
+          <option value="OR">Oregon</option>
+          <option value="PA">Pennsylvania</option>
+          <option value="PR">Puerto Rico</option>
+          <option value="RI">Rhode Island</option>
+          <option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option>
+          <option value="TN">Tennessee</option>
+          <option value="TX">Texas</option>
+          <option value="UT">Utah</option>
+          <option value="VT">Vermont</option>
+          <option value="VI">Virgin Islands</option>
+          <option value="VA">Virginia</option>
+          <option value="WA">Washington</option>
+          <option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option>
+          <option value="WY">Wyoming</option>
+        </select>
+        <div class="error" *ngIf="errors['additional_state']">{{ errors['additional_state'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_zip">Zip Code</label>
+        <input type="text" id="additional_zip" [(ngModel)]="additionalZip" name="additional_zip" required maxlength="5" pattern="[0-9]{5}" (input)="onAdditionalZipInput()">
+        <div class="error" *ngIf="errors['additional_zip']">{{ errors['additional_zip'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_city">City</label>
+        <input type="text" id="additional_city" [(ngModel)]="additionalCity" name="additional_city" required>
+        <div class="error" *ngIf="errors['additional_city']">{{ errors['additional_city'] }}</div>
+      </div>
+      <div class="question">
+        <label for="additional_street_address">Street Address</label>
+        <input type="text" id="additional_street_address" [(ngModel)]="additionalStreetAddress" name="additional_street_address" required>
+        <div class="error" *ngIf="errors['additional_street_address']">{{ errors['additional_street_address'] }}</div>
       </div>
     </div>
     <div class="questions" *ngIf="currentStep === 9">
@@ -381,8 +756,95 @@
         </select>
         <div class="error" *ngIf="errors['education']">{{ errors['education'] }}</div>
       </div>
+      <div class="question">
+        <label for="occupation">Occupation</label>
+        <select id="occupation" [(ngModel)]="occupation" name="occupation" required>
+          <option value="">Select occupation</option>
+          <option value="0">Unemployed</option>
+          <option value="1">Administrative Clerical</option>
+          <option value="2">Business Owner</option>
+          <option value="3">Certified Public Accountant</option>
+          <option value="4">Clergy</option>
+          <option value="5">Dentist</option>
+          <option value="6">Disabled</option>
+          <option value="7">Engineer</option>
+          <option value="8">Homemaker</option>
+          <option value="9">Lawyer</option>
+          <option value="10">Manager/Supervisor</option>
+          <option value="11">Military Officer</option>
+          <option value="12">Military Enlisted</option>
+          <option value="13">Minor</option>
+          <option value="14">Other Non-Technical</option>
+          <option value="15">Physician</option>
+          <option value="16">Professional Salaried</option>
+          <option value="17">Retail</option>
+          <option value="18">Retired</option>
+          <option value="19">Sales, Inside</option>
+          <option value="20">Sales, Outside</option>
+          <option value="21">Scientist</option>
+          <option value="22">Security</option>
+          <option value="23">Self Employed</option>
+          <option value="24">Skilled/Semi Skilled</option>
+          <option value="25">Student</option>
+        </select>
+        <div class="error" *ngIf="errors['occupation']">{{ errors['occupation'] }}</div>
+      </div>
     </div>
     <div class="questions" *ngIf="currentStep === 10">
+      <div class="question">
+        <label for="creditRating">Credit Rating</label>
+        <select id="creditRating" [(ngModel)]="creditRating" name="creditRating" required>
+          <option value="">Select credit rating</option>
+          <option value="0">Unsure</option>
+          <option value="1">Poor</option>
+          <option value="2">Good</option>
+          <option value="3">Excellent</option>
+        </select>
+        <div class="error" *ngIf="errors['creditRating']">{{ errors['creditRating'] }}</div>
+      </div>
+      <div class="question">
+        <label for="currentResidence">Current Residence</label>
+        <select id="currentResidence" [(ngModel)]="currentResidence" name="currentResidence" required>
+          <option value="">Select residence type</option>
+          <option value="0">Other</option>
+          <option value="1">Own</option>
+          <option value="2">Rent</option>
+        </select>
+        <div class="error" *ngIf="errors['currentResidence']">{{ errors['currentResidence'] }}</div>
+      </div>
+      <div class="question">
+        <label for="yearsAtResidence">Years at Residence</label>
+        <select id="yearsAtResidence" [(ngModel)]="yearsAtResidence" name="yearsAtResidence" required>
+          <option value="">Select years</option>
+          <option value="0">less than 1 year</option>
+          <option value="1">1 to 2 years</option>
+          <option value="2">2 to 3 years</option>
+          <option value="3">3 to 4 years</option>
+          <option value="4">4 to 5 years</option>
+          <option value="5">5 years or more</option>
+        </select>
+        <div class="error" *ngIf="errors['yearsAtResidence']">{{ errors['yearsAtResidence'] }}</div>
+      </div>
+      <div class="question">
+        <label for="suspendedLicense">Suspended License</label>
+        <select id="suspendedLicense" [(ngModel)]="suspendedLicense" name="suspendedLicense" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="2">No</option>
+        </select>
+        <div class="error" *ngIf="errors['suspendedLicense']">{{ errors['suspendedLicense'] }}</div>
+      </div>
+      <div class="question">
+        <label for="sr22">SR22</label>
+        <select id="sr22" [(ngModel)]="sr22" name="sr22" required>
+          <option value="">Select</option>
+          <option value="1">Yes</option>
+          <option value="2">No</option>
+        </select>
+        <div class="error" *ngIf="errors['sr22']">{{ errors['sr22'] }}</div>
+      </div>
+    </div>
+    <div class="questions" *ngIf="currentStep === 11">
       <div class="question">
         <label for="tickets_past_12_months">Any tickets in past 12 months</label>
         <select id="tickets_past_12_months" [(ngModel)]="tickets_past_12_months" name="tickets_past_12_months" required>
@@ -422,7 +884,7 @@
         <div class="error" *ngIf="errors['num_major_violations']">{{ errors['num_major_violations'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 10">
+    <div class="questions" *ngIf="currentStep === 12">
       <div class="question">
         <label for="accidents_past_12_months">Any accidents in past 12 months</label>
         <select id="accidents_past_12_months" [(ngModel)]="accidents_past_12_months" name="accidents_past_12_months" required>
@@ -462,7 +924,7 @@
         <div class="error" *ngIf="errors['num_claims']">{{ errors['num_claims'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 16">
+    <div class="questions" *ngIf="currentStep === 19">
       <div class="question">
         <label for="leadid_tcpa_disclosure" class="checkbox-label">
           <label>
