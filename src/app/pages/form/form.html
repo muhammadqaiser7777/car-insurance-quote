@@ -148,7 +148,7 @@
       </div>
     </div>
     <div class="questions" *ngIf="currentStep === 6">
-      <h3>Vehicle Summary</h3>
+      <h3>Vehicle(s) Summary</h3>
       <div *ngFor="let vehicle of vehicles; let i = index" class="vehicle-preview">
         <h4>Vehicle {{ i + 1 }}</h4>
         <p><strong>Make:</strong> {{ vehicle.make }}</p>
@@ -170,7 +170,7 @@
     <div class="questions" *ngIf="currentStep === 7">
       <div class="question">
         <label for="license_state">License State</label>
-        <select id="license_state" [(ngModel)]="license_state" name="license_state" required>
+        <select id="license_state" [(ngModel)]="currentDriver.license_state" name="license_state" required>
           <option value="">Select a state</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
@@ -230,7 +230,7 @@
       </div>
       <div class="question">
         <label for="license_status">License Status</label>
-        <select id="license_status" [(ngModel)]="license_status" name="license_status" required>
+        <select id="license_status" [(ngModel)]="currentDriver.license_status" name="license_status" required>
           <option value="">Select status</option>
           <option value="Active">Active</option>
           <option value="International">International</option>
@@ -246,14 +246,14 @@
     <div class="questions" *ngIf="currentStep === 8">
       <div class="question">
         <label for="date_of_birth">Date of Birth</label>
-        <input type="date" id="date_of_birth" [(ngModel)]="date_of_birth" name="date_of_birth" required [max]="maxDate">
+        <input type="date" id="date_of_birth" [(ngModel)]="currentDriver.date_of_birth" name="date_of_birth" required [max]="maxDate">
         <div class="error" *ngIf="errors['date_of_birth']">{{ errors['date_of_birth'] }}</div>
       </div>
     </div>
     <div class="questions" *ngIf="currentStep === 9">
       <div class="question">
         <label for="marital_status">Marital Status</label>
-        <select id="marital_status" [(ngModel)]="marital_status" name="marital_status" required>
+        <select id="marital_status" [(ngModel)]="currentDriver.marital_status" name="marital_status" required>
           <option value="">Select status</option>
           <option value="Single">Single</option>
           <option value="Married">Married</option>
@@ -266,7 +266,7 @@
       </div>
       <div class="question">
         <label for="education">Education</label>
-        <select id="education" [(ngModel)]="education" name="education" required>
+        <select id="education" [(ngModel)]="currentDriver.education" name="education" required>
           <option value="">Select education</option>
           <option value="High School Diploma">High School Diploma</option>
           <option value="Associate Degree">Associate Degree</option>
@@ -280,7 +280,7 @@
       </div>
       <div class="question">
         <label for="occupation">Occupation</label>
-        <select id="occupation" [(ngModel)]="occupation" name="occupation" required>
+        <select id="occupation" [(ngModel)]="currentDriver.occupation" name="occupation" required>
           <option value="">Select occupation</option>
           <option value="0">Unemployed</option>
           <option value="1">Administrative Clerical</option>
@@ -315,7 +315,7 @@
     <div class="questions" *ngIf="currentStep === 10">
       <div class="question">
         <label for="creditRating">Credit Rating</label>
-        <select id="creditRating" [(ngModel)]="creditRating" name="creditRating" required>
+        <select id="creditRating" [(ngModel)]="currentDriver.creditRating" name="creditRating" required>
           <option value="">Select credit rating</option>
           <option value="0">Unsure</option>
           <option value="1">Poor</option>
@@ -326,7 +326,7 @@
       </div>
       <div class="question">
         <label for="currentResidence">Current Residence</label>
-        <select id="currentResidence" [(ngModel)]="currentResidence" name="currentResidence" required>
+        <select id="currentResidence" [(ngModel)]="currentDriver.currentResidence" name="currentResidence" required>
           <option value="">Select residence type</option>
           <option value="0">Other</option>
           <option value="1">Own</option>
@@ -336,7 +336,7 @@
       </div>
       <div class="question">
         <label for="yearsAtResidence">Years at Residence</label>
-        <select id="yearsAtResidence" [(ngModel)]="yearsAtResidence" name="yearsAtResidence" required>
+        <select id="yearsAtResidence" [(ngModel)]="currentDriver.yearsAtResidence" name="yearsAtResidence" required>
           <option value="">Select years</option>
           <option value="0">less than 1 year</option>
           <option value="1">1 to 2 years</option>
@@ -349,7 +349,7 @@
       </div>
       <div class="question">
         <label for="suspendedLicense">Suspended License</label>
-        <select id="suspendedLicense" [(ngModel)]="suspendedLicense" name="suspendedLicense" required>
+        <select id="suspendedLicense" [(ngModel)]="currentDriver.suspendedLicense" name="suspendedLicense" required>
           <option value="">Select</option>
           <option value="1">Yes</option>
           <option value="2">No</option>
@@ -358,7 +358,7 @@
       </div>
       <div class="question">
         <label for="sr22">SR22</label>
-        <select id="sr22" [(ngModel)]="sr22" name="sr22" required>
+        <select id="sr22" [(ngModel)]="currentDriver.sr22" name="sr22" required>
           <option value="">Select</option>
           <option value="1">Yes</option>
           <option value="2">No</option>
@@ -366,59 +366,19 @@
         <div class="error" *ngIf="errors['sr22']">{{ errors['sr22'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 11">
-      <div class="question">
-        <label for="tickets_past_12_months">Any tickets in past 12 months</label>
-        <select id="tickets_past_12_months" [(ngModel)]="tickets_past_12_months" name="tickets_past_12_months" required>
-          <option value="">Select</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-        <div class="error" *ngIf="errors['tickets_past_12_months']">{{ errors['tickets_past_12_months'] }}</div>
-      </div>
-      <div class="question" *ngIf="tickets_past_12_months === 'Yes'">
-        <label for="num_tickets">No of tickets</label>
-        <select id="num_tickets" [(ngModel)]="num_tickets" name="num_tickets" required>
-          <option value="">Select</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
-        <div class="error" *ngIf="errors['num_tickets']">{{ errors['num_tickets'] }}</div>
-      </div>
-      <div class="question">
-        <label for="major_violations_past_12_months">Any major violations in past 12 months</label>
-        <select id="major_violations_past_12_months" [(ngModel)]="major_violations_past_12_months" name="major_violations_past_12_months" required>
-          <option value="">Select</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-        <div class="error" *ngIf="errors['major_violations_past_12_months']">{{ errors['major_violations_past_12_months'] }}</div>
-      </div>
-      <div class="question" *ngIf="major_violations_past_12_months === 'Yes'">
-        <label for="num_major_violations">No of major violations</label>
-        <select id="num_major_violations" [(ngModel)]="num_major_violations" name="num_major_violations" required>
-          <option value="">Select</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
-        <div class="error" *ngIf="errors['num_major_violations']">{{ errors['num_major_violations'] }}</div>
-      </div>
-    </div>
-    <div class="questions" *ngIf="currentStep === 12">
+     <div class="questions" *ngIf="currentStep === 11">
       <div class="question">
         <label for="accidents_past_12_months">Any accidents in past 12 months</label>
-        <select id="accidents_past_12_months" [(ngModel)]="accidents_past_12_months" name="accidents_past_12_months" required>
+        <select id="accidents_past_12_months" [(ngModel)]="currentDriver.accidents_past_12_months" name="accidents_past_12_months" required>
           <option value="">Select</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
         <div class="error" *ngIf="errors['accidents_past_12_months']">{{ errors['accidents_past_12_months'] }}</div>
       </div>
-      <div class="question" *ngIf="accidents_past_12_months === 'Yes'">
+      <div class="question" *ngIf="currentDriver.accidents_past_12_months === 'Yes'">
         <label for="num_accidents">No of accidents</label>
-        <select id="num_accidents" [(ngModel)]="num_accidents" name="num_accidents" required>
+        <select id="num_accidents" [(ngModel)]="currentDriver.num_accidents" name="num_accidents" required>
           <option value="">Select</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -428,16 +388,16 @@
       </div>
       <div class="question">
         <label for="claims_past_12_months">Any claims in past 12 months</label>
-        <select id="claims_past_12_months" [(ngModel)]="claims_past_12_months" name="claims_past_12_months" required>
+        <select id="claims_past_12_months" [(ngModel)]="currentDriver.claims_past_12_months" name="claims_past_12_months" required>
           <option value="">Select</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
         <div class="error" *ngIf="errors['claims_past_12_months']">{{ errors['claims_past_12_months'] }}</div>
       </div>
-      <div class="question" *ngIf="claims_past_12_months === 'Yes'">
+      <div class="question" *ngIf="currentDriver.claims_past_12_months === 'Yes'">
         <label for="num_claims">No of claims</label>
-        <select id="num_claims" [(ngModel)]="num_claims" name="num_claims" required>
+        <select id="num_claims" [(ngModel)]="currentDriver.num_claims" name="num_claims" required>
           <option value="">Select</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -446,7 +406,79 @@
         <div class="error" *ngIf="errors['num_claims']">{{ errors['num_claims'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 13">
+       <div class="question">
+         <label for="major_violations_past_12_months">Any major violations in past 12 months</label>
+         <select id="major_violations_past_12_months" [(ngModel)]="major_violations_past_12_months" name="major_violations_past_12_months" required>
+           <option value="">Select</option>
+           <option value="Yes">Yes</option>
+           <option value="No">No</option>
+         </select>
+         <div class="error" *ngIf="errors['major_violations_past_12_months']">{{ errors['major_violations_past_12_months'] }}</div>
+       </div>
+       <div class="question" *ngIf="major_violations_past_12_months === 'Yes'">
+         <label for="num_major_violations">No of major violations</label>
+         <select id="num_major_violations" [(ngModel)]="num_major_violations" name="num_major_violations" required>
+           <option value="">Select</option>
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+         </select>
+         <div class="error" *ngIf="errors['num_major_violations']">{{ errors['num_major_violations'] }}</div>
+       </div>
+       <div class="question">
+         <label for="tickets_past_12_months">Any tickets in past 12 months</label>
+         <select id="tickets_past_12_months" [(ngModel)]="tickets_past_12_months" name="tickets_past_12_months" required>
+           <option value="">Select</option>
+           <option value="Yes">Yes</option>
+           <option value="No">No</option>
+         </select>
+         <div class="error" *ngIf="errors['tickets_past_12_months']">{{ errors['tickets_past_12_months'] }}</div>
+       </div>
+       <div class="question" *ngIf="tickets_past_12_months === 'Yes'">
+         <label for="num_tickets">No of tickets</label>
+         <select id="num_tickets" [(ngModel)]="num_tickets" name="num_tickets" required>
+           <option value="">Select</option>
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+         </select>
+         <div class="error" *ngIf="errors['num_tickets']">{{ errors['num_tickets'] }}</div>
+     </div>
+     <div class="questions" *ngIf="currentStep === 12">
+       <div class="question">
+         <label for="add_another_driver">Add another driver? (Max 5 drivers)</label>
+         <select id="add_another_driver" [(ngModel)]="addAnotherDriver" name="add_another_driver" required>
+           <option value="">Select</option>
+           <option value="Yes" *ngIf="drivers.length < 5">Yes</option>
+           <option value="No">No</option>
+         </select>
+         <div class="error" *ngIf="errors['add_another_driver']">{{ errors['add_another_driver'] }}</div>
+       </div>
+     </div>
+     <div class="questions" *ngIf="currentStep === 13">
+       <h3>Driver(s) Summary</h3>
+       <div *ngFor="let driver of drivers; let i = index" class="driver-preview">
+         <h4>Driver {{ i + 1 }}</h4>
+         <p><strong>License State:</strong> {{ driver.license_state }}</p>
+         <p><strong>License Status:</strong> {{ driver.license_status }}</p>
+         <p><strong>Date of Birth:</strong> {{ driver.date_of_birth }}</p>
+         <p><strong>Marital Status:</strong> {{ driver.marital_status }}</p>
+         <p><strong>Education:</strong> {{ driver.education }}</p>
+         <p><strong>Occupation:</strong> {{ driver.occupation }}</p>
+         <p><strong>Credit Rating:</strong> {{ driver.creditRating }}</p>
+         <p><strong>Current Residence:</strong> {{ driver.currentResidence }}</p>
+         <p><strong>Years at Residence:</strong> {{ driver.yearsAtResidence }}</p>
+         <p><strong>Suspended License:</strong> {{ driver.suspendedLicense }}</p>
+         <p><strong>SR22:</strong> {{ driver.sr22 }}</p>
+         <p><strong>Accidents Past 12 Months:</strong> {{ driver.accidents_past_12_months }}</p>
+         <p *ngIf="driver.accidents_past_12_months === 'Yes'"><strong>Number of Accidents:</strong> {{ driver.num_accidents }}</p>
+         <p><strong>Claims Past 12 Months:</strong> {{ driver.claims_past_12_months }}</p>
+         <p *ngIf="driver.claims_past_12_months === 'Yes'"><strong>Number of Claims:</strong> {{ driver.num_claims }}</p>
+         <p *ngIf="driver.major_violations_past_12_months === 'Yes'"><strong>Number of Major Violations:</strong> {{ driver.num_major_violations }}</p>
+         <p *ngIf="driver.tickets_past_12_months === 'Yes'"><strong>Number of Tickets:</strong> {{ driver.num_tickets }}</p>
+       </div>
+     </div>
+     <div class="questions" *ngIf="currentStep === 14">
       <div class="question">
         <label for="first_name">First Name</label>
         <input type="text" id="first_name" [(ngModel)]="first_name" name="first_name" required (input)="onFirstNameInput()">
@@ -458,7 +490,7 @@
         <div class="error" *ngIf="errors['last_name']">{{ errors['last_name'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 14">
+    <div class="questions" *ngIf="currentStep === 15">
       <div class="question">
         <label for="email">Email</label>
         <input type="email" id="email" [(ngModel)]="email" name="email" required>
@@ -470,7 +502,7 @@
         <div class="error" *ngIf="errors['phone']">{{ errors['phone'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 15">
+    <div class="questions" *ngIf="currentStep === 16">
       <div class="question">
         <label for="state">State</label>
         <select id="state" [(ngModel)]="state" name="state" required>
@@ -537,7 +569,7 @@
         <div class="error" *ngIf="errors['zip']">{{ errors['zip'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 16">
+    <div class="questions" *ngIf="currentStep === 17">
       <div class="question">
         <label for="city">City</label>
         <input type="text" id="city" [(ngModel)]="city" name="city" required>
@@ -549,7 +581,7 @@
         <div class="error" *ngIf="errors['street_address']">{{ errors['street_address'] }}</div>
       </div>
     </div>
-    <div class="questions" *ngIf="currentStep === 17">
+    <div class="questions" *ngIf="currentStep === 18">
       <div class="question">
         <label for="leadid_tcpa_disclosure" class="checkbox-label">
           <label>

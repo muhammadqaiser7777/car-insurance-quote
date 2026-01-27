@@ -31,8 +31,31 @@ export class Form implements OnInit {
     current_expiry: '',
     length_insured: ''
   };
-  addAnotherVehicle: string = '';
-  license_state: string = '';
+   addAnotherVehicle: string = '';
+   drivers: any[] = [];
+   currentDriver: any = {
+     license_state: '',
+     license_status: '',
+     date_of_birth: '',
+     marital_status: '',
+     education: '',
+     occupation: '',
+     creditRating: '',
+     currentResidence: '',
+     yearsAtResidence: '',
+     suspendedLicense: '',
+     sr22: '',
+     accidents_past_12_months: '',
+     num_accidents: '',
+     claims_past_12_months: '',
+     num_claims: '',
+     tickets_past_12_months: '',
+     num_tickets: '',
+     major_violations_past_12_months: '',
+     num_major_violations: ''
+   };
+   addAnotherDriver: string = '';
+   license_state: string = '';
   license_status: string = '';
   first_name: string = '';
   last_name: string = '';
@@ -62,7 +85,7 @@ export class Form implements OnInit {
   claims_past_12_months: string = '';
   num_claims: string = '';
   logoUrl: string = 'assets/images/default.webp';
-  formTitle: string = 'Get your Insurance on Wheel';
+  formTitle: string = 'Get your Insurance Quote';
   agreement: boolean = true;
   ipaddress: string = '';
   universalLeadid: string = '';
@@ -356,7 +379,7 @@ export class Form implements OnInit {
         this.xxTrustedFormCertUrl = (certInput as HTMLInputElement).value;
       }
     }, 500);
-    if (this.currentStep === 15) {
+    if (this.currentStep === 16) {
       if (await this.validateCurrentStep()) {
         this.isValidatingZip = true;
         this.http.get(`https://steermarketeer.com/api/a9f3b2c1e7d4?zip=${this.zip}`).subscribe({
@@ -387,17 +410,17 @@ export class Form implements OnInit {
             }
           },
           error: () => {
-            // API failure, proceed anyway
-            this.isValidatingZip = false;
-            if (this.currentStep < this.totalSteps) {
-              this.currentStep++;
+              // API failure, proceed anyway
+              this.isValidatingZip = false;
+              if (this.currentStep < this.totalSteps) {
+                this.currentStep++;
+              }
             }
-          }
         });
       }
-    } else if (this.currentStep === 16) {
+    } else if (this.currentStep === 17) {
       if (await this.validateCurrentStep()) {
-        this.currentStep = 17;
+        this.currentStep = 19;
       }
     } else if (await this.validateCurrentStep()) {
       if (this.currentStep === 5) {
@@ -427,12 +450,43 @@ export class Form implements OnInit {
           this.availableSubmodels = [];
           this.availableYears = [];
         } else if (this.addAnotherVehicle === 'No') {
-          this.vehicles.push({ ...this.currentVehicle });
-          this.currentStep = 6;
+            this.vehicles.push({ ...this.currentVehicle });
+            this.currentStep = 6;
+          }
+        } else if (this.currentStep === 11) {
+          this.drivers.push({ ...this.currentDriver });
+          this.currentStep = 12;
+        } else if (this.currentStep === 12) {
+          if (this.addAnotherDriver === 'Yes') {
+            this.currentDriver = {
+              license_state: '',
+              license_status: '',
+              date_of_birth: '',
+              marital_status: '',
+              education: '',
+              occupation: '',
+              creditRating: '',
+              currentResidence: '',
+              yearsAtResidence: '',
+              suspendedLicense: '',
+              sr22: '',
+              accidents_past_12_months: '',
+              num_accidents: '',
+              claims_past_12_months: '',
+              num_claims: '',
+              num_tickets: '',
+              tickets_past_12_months: '',
+              major_violations_past_12_months: '',
+              num_major_violations: ''
+            };
+            this.addAnotherDriver = '';
+            this.currentStep = 7;
+          } else if (this.addAnotherDriver === 'No') {
+            this.currentStep = 13;
+          }
+        } else if (this.currentStep < this.totalSteps) {
+          this.currentStep++;
         }
-      } else if (this.currentStep < this.totalSteps) {
-        this.currentStep++;
-      }
     }
   }
 
@@ -515,20 +569,20 @@ export class Form implements OnInit {
     } else if (this.currentStep === 6) {
       // No validation for summary step
     } else if (this.currentStep === 7) {
-      if (!this.license_state) {
+      if (!this.currentDriver.license_state) {
         this.errors['license_state'] = 'Please select a license state.';
         valid = false;
       }
-      if (!this.license_status) {
+      if (!this.currentDriver.license_status) {
         this.errors['license_status'] = 'Please select a license status.';
         valid = false;
       }
     } else if (this.currentStep === 8) {
-      if (!this.date_of_birth) {
+      if (!this.currentDriver.date_of_birth) {
         this.errors['date_of_birth'] = 'Please enter your date of birth.';
         valid = false;
       } else {
-        const dob = new Date(this.date_of_birth);
+        const dob = new Date(this.currentDriver.date_of_birth);
         if (isNaN(dob.getTime())) {
           this.errors['date_of_birth'] = 'Please enter a valid date of birth.';
           valid = false;
@@ -542,70 +596,63 @@ export class Form implements OnInit {
         }
       }
     } else if (this.currentStep === 9) {
-      if (!this.marital_status) {
+      if (!this.currentDriver.marital_status) {
         this.errors['marital_status'] = 'Please select your marital status.';
         valid = false;
       }
-      if (!this.education) {
+      if (!this.currentDriver.education) {
         this.errors['education'] = 'Please select your education level.';
         valid = false;
       }
-      if (!this.occupation) {
+      if (!this.currentDriver.occupation) {
         this.errors['occupation'] = 'Please select your occupation.';
         valid = false;
       }
     } else if (this.currentStep === 10) {
-      if (!this.creditRating) {
+      if (!this.currentDriver.creditRating) {
         this.errors['creditRating'] = 'Please select your credit rating.';
         valid = false;
       }
-      if (!this.currentResidence) {
+      if (!this.currentDriver.currentResidence) {
         this.errors['currentResidence'] = 'Please select your current residence.';
         valid = false;
       }
-      if (!this.yearsAtResidence) {
+      if (!this.currentDriver.yearsAtResidence) {
         this.errors['yearsAtResidence'] = 'Please select years at residence.';
         valid = false;
       }
-      if (!this.suspendedLicense) {
+      if (!this.currentDriver.suspendedLicense) {
         this.errors['suspendedLicense'] = 'Please select if your license is suspended.';
         valid = false;
       }
-      if (!this.sr22) {
+      if (!this.currentDriver.sr22) {
         this.errors['sr22'] = 'Please select SR22 status.';
         valid = false;
       }
     } else if (this.currentStep === 11) {
-      if (!this.tickets_past_12_months) {
-        this.errors['tickets_past_12_months'] = 'Please select yes or no.';
-        valid = false;
-      } else if (this.tickets_past_12_months === 'Yes' && !this.num_tickets) {
-        this.errors['num_tickets'] = 'Please select the number of tickets.';
-        valid = false;
-      }
-      if (!this.major_violations_past_12_months) {
-        this.errors['major_violations_past_12_months'] = 'Please select yes or no.';
-        valid = false;
-      } else if (this.major_violations_past_12_months === 'Yes' && !this.num_major_violations) {
-        this.errors['num_major_violations'] = 'Please select the number of major violations.';
-        valid = false;
-      }
-    } else if (this.currentStep === 12) {
-      if (!this.accidents_past_12_months) {
+      if (!this.currentDriver.accidents_past_12_months) {
         this.errors['accidents_past_12_months'] = 'Please select yes or no.';
         valid = false;
-      } else if (this.accidents_past_12_months === 'Yes' && !this.num_accidents) {
+      } else if (this.currentDriver.accidents_past_12_months === 'Yes' && !this.currentDriver.num_accidents) {
         this.errors['num_accidents'] = 'Please select the number of accidents.';
         valid = false;
       }
-      if (!this.claims_past_12_months) {
+      if (!this.currentDriver.claims_past_12_months) {
         this.errors['claims_past_12_months'] = 'Please select yes or no.';
         valid = false;
-      } else if (this.claims_past_12_months === 'Yes' && !this.num_claims) {
+      } else if (this.currentDriver.claims_past_12_months === 'Yes' && !this.currentDriver.num_claims) {
         this.errors['num_claims'] = 'Please select the number of claims.';
         valid = false;
       }
-    } else if (this.currentStep === 13) {
+    } else if (this.currentStep === 12) {
+      if (!this.addAnotherDriver) {
+        this.errors['add_another_driver'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.addAnotherDriver === 'Yes' && this.drivers.length >= 5) {
+        this.errors['add_another_driver'] = 'Maximum of 5 drivers allowed.';
+        valid = false;
+      }
+    } else if (this.currentStep === 14) {
       if (!this.first_name) {
         this.errors['first_name'] = 'Please enter your first name.';
         valid = false;
@@ -614,7 +661,7 @@ export class Form implements OnInit {
         this.errors['last_name'] = 'Please enter your last name.';
         valid = false;
       }
-    } else if (this.currentStep === 14) {
+    } else if (this.currentStep === 15) {
       if (!this.email) {
         this.errors['email'] = 'Please enter your email.';
         valid = false;
@@ -649,7 +696,7 @@ export class Form implements OnInit {
           valid = false;
         }
       }
-    } else if (this.currentStep === 15) {
+    } else if (this.currentStep === 16) {
       if (!this.state) {
         this.errors['state'] = 'Please select a state.';
         valid = false;
@@ -661,7 +708,7 @@ export class Form implements OnInit {
         this.errors['zip'] = 'Zip code must be exactly 5 digits.';
         valid = false;
       }
-    } else if (this.currentStep === 16) {
+    } else if (this.currentStep === 17) {
       if (!this.city) {
         this.errors['city'] = 'Please enter your city.';
         valid = false;
@@ -670,9 +717,24 @@ export class Form implements OnInit {
         this.errors['street_address'] = 'Please enter your street address.';
         valid = false;
       }
-    } else if (this.currentStep === 17) {
+    } else if (this.currentStep === 18) {
       if (!this.agreement) {
         this.errors['agreement'] = 'You must agree to the terms and conditions.';
+        valid = false;
+      }
+    } else if (this.currentStep === 18) {
+      if (!this.tickets_past_12_months) {
+        this.errors['tickets_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.tickets_past_12_months === 'Yes' && !this.num_tickets) {
+        this.errors['num_tickets'] = 'Please select the number of tickets.';
+        valid = false;
+      }
+      if (!this.major_violations_past_12_months) {
+        this.errors['major_violations_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.major_violations_past_12_months === 'Yes' && !this.num_major_violations) {
+        this.errors['num_major_violations'] = 'Please select the number of major violations.';
         valid = false;
       }
     }
@@ -700,8 +762,6 @@ export class Form implements OnInit {
       const yesNoMap = { 'Yes': 1, 'No': 2 };
 
       const payload: any = {
-        license_state: this.license_state,
-        license_status: licenseStatusMap[this.license_status as keyof typeof licenseStatusMap] || this.license_status,
         firstName: this.first_name,
         lastName: this.last_name,
         address: this.street_address,
@@ -710,18 +770,6 @@ export class Form implements OnInit {
         zip: this.zip,
         email: this.email,
         phone: this.phone,
-        date_of_birth: this.date_of_birth,
-        marital_status: maritalStatusMap[this.marital_status as keyof typeof maritalStatusMap] || this.marital_status,
-        education: educationMap[this.education as keyof typeof educationMap] || this.education,
-        occupation: this.occupation,
-        tickets_past_12_months: yesNoMap[this.tickets_past_12_months as keyof typeof yesNoMap] || this.tickets_past_12_months,
-        num_tickets: this.tickets_past_12_months === 'No' ? 0 : this.num_tickets,
-        major_violations_past_12_months: yesNoMap[this.major_violations_past_12_months as keyof typeof yesNoMap] || this.major_violations_past_12_months,
-        num_major_violations: this.major_violations_past_12_months === 'No' ? 0 : this.num_major_violations,
-        accidents_past_12_months: yesNoMap[this.accidents_past_12_months as keyof typeof yesNoMap] || this.accidents_past_12_months,
-        num_accidents: this.accidents_past_12_months === 'No' ? 0 : this.num_accidents,
-        claims_past_12_months: yesNoMap[this.claims_past_12_months as keyof typeof yesNoMap] || this.claims_past_12_months,
-        num_claims: this.claims_past_12_months === 'No' ? 0 : this.num_claims,
         agreement: this.agreement ? 1 : 2,
         ipaddress: this.ipaddress,
         universalLeadid: this.universalLeadid,
@@ -747,6 +795,29 @@ export class Form implements OnInit {
         payload[`primary_use${suffix}`] = primaryUseMap[vehicle.primary_use as keyof typeof primaryUseMap] || vehicle.primary_use;
         payload[`annual_miles${suffix}`] = annualMilesMap[vehicle.annual_miles as keyof typeof annualMilesMap] || vehicle.annual_miles;
         payload[`currently_insured${suffix}`] = yesNoMap[vehicle.currently_insured as keyof typeof yesNoMap] || vehicle.currently_insured;
+      });
+
+      this.drivers.forEach((driver, index) => {
+        const suffix = index + 1;
+        payload[`license_state${suffix}`] = driver.license_state;
+        payload[`license_status${suffix}`] = licenseStatusMap[driver.license_status as keyof typeof licenseStatusMap] || driver.license_status;
+        payload[`date_of_birth${suffix}`] = driver.date_of_birth;
+        payload[`marital_status${suffix}`] = maritalStatusMap[driver.marital_status as keyof typeof maritalStatusMap] || driver.marital_status;
+        payload[`education${suffix}`] = educationMap[driver.education as keyof typeof educationMap] || driver.education;
+        payload[`occupation${suffix}`] = driver.occupation;
+        payload[`creditRating${suffix}`] = driver.creditRating;
+        payload[`currentResidence${suffix}`] = driver.currentResidence;
+        payload[`yearsAtResidence${suffix}`] = driver.yearsAtResidence;
+        payload[`suspendedLicense${suffix}`] = driver.suspendedLicense;
+        payload[`sr22${suffix}`] = driver.sr22;
+        payload[`accidents_past_12_months${suffix}`] = yesNoMap[driver.accidents_past_12_months as keyof typeof yesNoMap] || driver.accidents_past_12_months;
+        payload[`num_accidents${suffix}`] = driver.accidents_past_12_months === 'No' ? 0 : driver.num_accidents;
+        payload[`claims_past_12_months${suffix}`] = yesNoMap[driver.claims_past_12_months as keyof typeof yesNoMap] || driver.claims_past_12_months;
+        payload[`num_claims${suffix}`] = driver.claims_past_12_months === 'No' ? 0 : driver.num_claims;
+        payload[`tickets_past_12_months${suffix}`] = yesNoMap[driver.tickets_past_12_months as keyof typeof yesNoMap] || driver.tickets_past_12_months;
+        payload[`num_tickets${suffix}`] = driver.tickets_past_12_months === 'No' ? 0 : driver.num_tickets;
+        payload[`major_violations_past_12_months${suffix}`] = yesNoMap[driver.major_violations_past_12_months as keyof typeof yesNoMap] || driver.major_violations_past_12_months;
+        payload[`num_major_violations${suffix}`] = driver.major_violations_past_12_months === 'No' ? 0 : driver.num_major_violations;
       });
 
       
