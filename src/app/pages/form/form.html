@@ -405,19 +405,18 @@
         </select>
         <div class="error" *ngIf="errors['num_claims']">{{ errors['num_claims'] }}</div>
       </div>
-    </div>
        <div class="question">
          <label for="major_violations_past_12_months">Any major violations in past 12 months</label>
-         <select id="major_violations_past_12_months" [(ngModel)]="major_violations_past_12_months" name="major_violations_past_12_months" required>
+         <select id="major_violations_past_12_months" [(ngModel)]="currentDriver.major_violations_past_12_months" name="major_violations_past_12_months" required>
            <option value="">Select</option>
            <option value="Yes">Yes</option>
            <option value="No">No</option>
          </select>
          <div class="error" *ngIf="errors['major_violations_past_12_months']">{{ errors['major_violations_past_12_months'] }}</div>
        </div>
-       <div class="question" *ngIf="major_violations_past_12_months === 'Yes'">
+       <div class="question" *ngIf="currentDriver.major_violations_past_12_months === 'Yes'">
          <label for="num_major_violations">No of major violations</label>
-         <select id="num_major_violations" [(ngModel)]="num_major_violations" name="num_major_violations" required>
+         <select id="num_major_violations" [(ngModel)]="currentDriver.num_major_violations" name="num_major_violations" required>
            <option value="">Select</option>
            <option value="1">1</option>
            <option value="2">2</option>
@@ -427,16 +426,16 @@
        </div>
        <div class="question">
          <label for="tickets_past_12_months">Any tickets in past 12 months</label>
-         <select id="tickets_past_12_months" [(ngModel)]="tickets_past_12_months" name="tickets_past_12_months" required>
+         <select id="tickets_past_12_months" [(ngModel)]="currentDriver.tickets_past_12_months" name="tickets_past_12_months" required>
            <option value="">Select</option>
            <option value="Yes">Yes</option>
            <option value="No">No</option>
          </select>
          <div class="error" *ngIf="errors['tickets_past_12_months']">{{ errors['tickets_past_12_months'] }}</div>
        </div>
-       <div class="question" *ngIf="tickets_past_12_months === 'Yes'">
+       <div class="question" *ngIf="currentDriver.tickets_past_12_months === 'Yes'">
          <label for="num_tickets">No of tickets</label>
-         <select id="num_tickets" [(ngModel)]="num_tickets" name="num_tickets" required>
+         <select id="num_tickets" [(ngModel)]="currentDriver.num_tickets" name="num_tickets" required>
            <option value="">Select</option>
            <option value="1">1</option>
            <option value="2">2</option>
@@ -444,7 +443,8 @@
          </select>
          <div class="error" *ngIf="errors['num_tickets']">{{ errors['num_tickets'] }}</div>
      </div>
-     <div class="questions" *ngIf="currentStep === 12">
+    </div>
+    <div class="questions" *ngIf="currentStep === 12">
        <div class="question">
          <label for="add_another_driver">Add another driver? (Max 5 drivers)</label>
          <select id="add_another_driver" [(ngModel)]="addAnotherDriver" name="add_another_driver" required>

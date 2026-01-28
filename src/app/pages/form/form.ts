@@ -420,7 +420,7 @@ export class Form implements OnInit {
       }
     } else if (this.currentStep === 17) {
       if (await this.validateCurrentStep()) {
-        this.currentStep = 19;
+        this.currentStep = 18;
       }
     } else if (await this.validateCurrentStep()) {
       if (this.currentStep === 5) {
@@ -644,6 +644,20 @@ export class Form implements OnInit {
         this.errors['num_claims'] = 'Please select the number of claims.';
         valid = false;
       }
+      if (!this.currentDriver.tickets_past_12_months) {
+        this.errors['tickets_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.currentDriver.tickets_past_12_months === 'Yes' && !this.currentDriver.num_tickets) {
+        this.errors['num_tickets'] = 'Please select the number of tickets.';
+        valid = false;
+      }
+      if (!this.currentDriver.major_violations_past_12_months) {
+        this.errors['major_violations_past_12_months'] = 'Please select yes or no.';
+        valid = false;
+      } else if (this.currentDriver.major_violations_past_12_months === 'Yes' && !this.currentDriver.num_major_violations) {
+        this.errors['num_major_violations'] = 'Please select the number of major violations.';
+        valid = false;
+      }
     } else if (this.currentStep === 12) {
       if (!this.addAnotherDriver) {
         this.errors['add_another_driver'] = 'Please select yes or no.';
@@ -720,21 +734,6 @@ export class Form implements OnInit {
     } else if (this.currentStep === 18) {
       if (!this.agreement) {
         this.errors['agreement'] = 'You must agree to the terms and conditions.';
-        valid = false;
-      }
-    } else if (this.currentStep === 18) {
-      if (!this.tickets_past_12_months) {
-        this.errors['tickets_past_12_months'] = 'Please select yes or no.';
-        valid = false;
-      } else if (this.tickets_past_12_months === 'Yes' && !this.num_tickets) {
-        this.errors['num_tickets'] = 'Please select the number of tickets.';
-        valid = false;
-      }
-      if (!this.major_violations_past_12_months) {
-        this.errors['major_violations_past_12_months'] = 'Please select yes or no.';
-        valid = false;
-      } else if (this.major_violations_past_12_months === 'Yes' && !this.num_major_violations) {
-        this.errors['num_major_violations'] = 'Please select the number of major violations.';
         valid = false;
       }
     }
